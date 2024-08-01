@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools_scm[toml] >= 6.2", "setuptools-generate >= 0.0.6"]
-build-backend = "setuptools.build_meta"
+requires = ['meson-python']
+build-backend = 'mesonpy'
 
-# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [project]
 name = "pyrime"
+dynamic = ["version"]
 description = "rime for python, attached to prompt-toolkit keybindings for some prompt-toolkit applications such as ptpython"
 readme = "README.md"
 # type_a | type_b
@@ -27,7 +27,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dynamic = ["version", "dependencies", "optional-dependencies"]
+
+[project.optional-dependencies]
+dev = ["prompt-toolkit", "pytest-cov"]
+prompt-toolkit = ["prompt-toolkit"]
 
 [[project.authors]]
 name = "Wu, Zhenyu"
@@ -41,23 +44,6 @@ Homepage = "https://pyrime.readthedocs.io"
 Download = "https://github.com/Freed-Wu/pyrime/releases"
 "Bug Report" = "https://github.com/Freed-Wu/pyrime/issues"
 Source = "https://github.com/Freed-Wu/pyrime"
-
-[tool.setuptools.package-data]
-pyrime = ["py.typed", "assets/**"]
-
-# begin: scripts/update-pyproject.toml.pl
-[tool.setuptools.dynamic.optional-dependencies.dev]
-file = "requirements/dev.txt"
-
-[tool.setuptools.dynamic.optional-dependencies.prompt-toolkit]
-file = "requirements/prompt-toolkit.txt"
-# end: scripts/update-pyproject.toml.pl
-
-[tool.setuptools_scm]
-write_to = "src/pyrime/_version.py"
-
-[tool.setuptools-generate]
-write-to = "src/pyrime/_metainfo.py"
 
 [tool.mdformat]
 number = true
