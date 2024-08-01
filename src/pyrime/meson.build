@@ -1,12 +1,14 @@
 py = import('python').find_installation(pure: false)
+rime_dep = dependency('rime')
 
 py.extension_module(
   '__init__',
   '__init__.c',
+  dependencies: [rime_dep],
   subdir: 'pyrime',
   install: true,
 )
 py.install_sources(
-  ['prompt_toolkit.py'],
+  ['__init__.pyi', '__main__.py', 'prompt_toolkit.py'],
   subdir: 'pyrime',
 )

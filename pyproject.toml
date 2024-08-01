@@ -29,8 +29,8 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["prompt-toolkit", "pytest-cov"]
-prompt-toolkit = ["prompt-toolkit"]
+dev = ["prompt-toolkit", "platformdirs", "pytest-cov"]
+prompt-toolkit = ["prompt-toolkit", "platformdirs"]
 
 [[project.authors]]
 name = "Wu, Zhenyu"
