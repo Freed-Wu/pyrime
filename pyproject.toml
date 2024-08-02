@@ -49,7 +49,7 @@ Source = "https://github.com/Freed-Wu/pyrime"
 number = true
 
 [tool.codespell]
-ignore-words-list = "rime"
+ignore-words-list = "rime, rightt"
 
 [tool.doq]
 template_path = "templates"

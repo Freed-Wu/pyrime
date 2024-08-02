@@ -12,3 +12,7 @@ py.install_sources(
   ['__init__.pyi', '__main__.py', 'prompt_toolkit.py'],
   subdir: 'pyrime',
 )
+py.install_sources(
+  ['assets/json/keys.json', 'assets/json/modifiers.json'],
+  subdir: 'pyrime/assets/json',
+)
