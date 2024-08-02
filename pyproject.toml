@@ -29,7 +29,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["prompt-toolkit", "platformdirs", "pytest-cov"]
+dev = ["platformdirs", "pytest-cov"]
 prompt-toolkit = ["prompt-toolkit", "platformdirs"]
 
 [[project.authors]]
@@ -89,5 +89,5 @@ exclude_lines = [
 [tool.cibuildwheel]
 archs = ["all"]
 skip = "*37-* *38-* *39-*"
-before-test = "pip install -rrequirements.txt -rrequirements/dev.txt"
+test-requires = ["pytest"]
 test-command = "pytest {project}"

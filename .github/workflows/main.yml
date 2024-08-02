@@ -1,0 +1,157 @@
+---
+"on":
+  push:
+    paths-ignore:
+      - "**.md"
+      - docs/*
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - docs/*
+  workflow_dispatch:
+
+# https://github.com/softprops/action-gh-release/issues/236
+permissions:
+  contents: write
+
+env:
+  files: dist/*
+  python-version: 3.x
+  cache: pip
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          # SystemError: PyDescr_NewMember used with Py_RELATIVE_OFFSET
+          # - macos-latest
+          - windows-latest
+    runs-on: ${{matrix.runs-on}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{env.python-version}}
+          cache: ${{env.cache}}
+      - uses: msys2/setup-msys2@v2
+        if: runner.os == 'Windows'
+      - name: Install dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install librime-dev
+      - name: Install dependencies
+        if: runner.os == 'macOS'
+        run: |
+          brew tap tonyfettes/homebrew-rime
+          brew install librime
+      - name: Install dependencies
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          pacman -Sy --noconfirm mingw-w64-x86_64-pkg-config \
+          mingw-w64-x86_64-librime mingw-w64-x86_64-python-pip \
+          mingw-w64-x86_64-ninja mingw-w64-x86_64-gcc
+      - name: Test
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          pip install .[dev]
+          pytest --cov
+      - name: Test
+        if: runner.os != 'Windows'
+        run: |
+          pip install .[dev]
+          pytest --cov
+      - uses: codecov/codecov-action@v3
+
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{matrix.runs-on}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.python-version}}
+          cache: ${{env.cache}}
+      - uses: msys2/setup-msys2@v2
+        if: runner.os == 'Windows'
+      - name: Install dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install librime-dev
+      - name: Install dependencies
+        if: runner.os == 'macOS'
+        run: |
+          brew tap tonyfettes/homebrew-rime
+          brew install librime
+      - name: Install dependencies
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          pacman -Sy --noconfirm mingw-w64-x86_64-pkg-config \
+          mingw-w64-x86_64-librime mingw-w64-x86_64-python-build \
+          mingw-w64-x86_64-ninja mingw-w64-x86_64-gcc git
+      - name: Install dependencies
+        if: runner.os != 'Windows'
+        run: |
+          pip install build
+      - name: Build
+        shell: msys2 {0}
+        if: runner.os == 'Windows'
+        run: |
+          pyproject-build
+      - name: Build
+        if: runner.os != 'Windows'
+        run: |
+          pyproject-build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        if: runner.os == 'Linux' && startsWith(github.ref, 'refs/tags/')
+        with:
+          password: ${{secrets.PYPI_API_TOKEN}}
+      - uses: actions/upload-artifact@v4
+        if: runner.os == 'Linux' && ! startsWith(github.ref, 'refs/tags/')
+        with:
+          name: artifact-${{matrix.runs-on}}
+          path: |
+            ${{env.files}}
+      - uses: softprops/action-gh-release@v1
+        if: runner.os == 'Linux' && startsWith(github.ref, 'refs/tags/')
+        with:
+          # body_path: build/CHANGELOG.md
+          files: |
+            ${{env.files}}
+
+  deploy-aur:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: Freed-Wu/update-aur-package@v1.0.11
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          package_name: python-pyrime
+          ssh_private_key: ${{secrets.AUR_SSH_PRIVATE_KEY}}
+
+  deploy-nur:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Trigger Workflow
+        run: >
+          curl -X POST -d '{"ref": "main"}'
+          -H "Accept: application/vnd.github.v3+json"
+          -H "Authorization: Bearer ${{secrets.GH_TOKEN}}"
+          https://api.github.com/repos/Freed-Wu/nur-packages/actions/workflows/version.yml/dispatches

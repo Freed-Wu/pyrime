@@ -9,7 +9,7 @@ py.extension_module(
   install: true,
 )
 py.install_sources(
-  ['__init__.pyi', '__main__.py', 'prompt_toolkit.py'],
+  ['__init__.pyi', '__main__.py', 'prompt_toolkit.py', 'parse_key.py'],
   subdir: 'pyrime',
 )
 py.install_sources(
