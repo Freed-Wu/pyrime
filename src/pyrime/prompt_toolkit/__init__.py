@@ -5,6 +5,9 @@ r"""Prompt Toolkit
 import os
 from dataclasses import dataclass
 
+from ptpython.repl import PythonRepl
+from wcwidth import wcswidth
+
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.filters import Condition
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
@@ -16,10 +19,8 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import BufferControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame
-from ptpython.repl import PythonRepl
-from wcwidth import wcswidth
 
-from . import (
+from .. import (
     clearComposition,
     commitComposition,
     createSession,
@@ -28,9 +29,9 @@ from . import (
     init,
     processKey,
 )
-from .__main__ import Traits
-from .draw_ui import UI, draw_ui
-from .parse_key import (
+from ..__main__ import Traits
+from ..draw_ui import UI, draw_ui
+from ..parse_key import (
     ALT_SHIFT_CR,
     CONTROL_ALT_CR,
     CONTROL_ALT_SHIFT_CR,
