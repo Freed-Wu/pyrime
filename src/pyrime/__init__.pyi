@@ -9,7 +9,7 @@ from platformdirs import user_data_path
 from .__main__ import shared_data_dir, user_data_dir
 
 @dataclass
-class Compostion:
+class Composition:
     length: int
     cursor_pos: int
     sel_start: int
@@ -33,7 +33,7 @@ class Menu:
 
 @dataclass
 class Context:
-    compostion: Compostion
+    composition: Composition
     menu: Menu
 
 @dataclass
