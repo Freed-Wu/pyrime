@@ -27,6 +27,14 @@ py.install_sources(
   subdir: 'pyrime',
 )
 py.install_sources(
+  [
+    'utils/ansi.py',
+    'utils/insert.py',
+    'utils/prompt_style.py',
+  ],
+  subdir: 'pyrime/utils',
+)
+py.install_sources(
   ['assets/json/keys.json', 'assets/json/modifiers.json'],
   subdir: 'pyrime/assets/json',
 )

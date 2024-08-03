@@ -29,6 +29,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+color = ["colorama"]
 dev = ["pytest-cov", "wcwidth"]
 prompt-toolkit = ["prompt-toolkit", "platformdirs", "wcwidth"]
 
