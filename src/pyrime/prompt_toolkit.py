@@ -34,6 +34,8 @@ from .parse_key import parse_keys
 
 @dataclass
 class Rime:
+    r"""Rime."""
+
     repl: PythonRepl
     session_id: int = 0
     is_enabled: bool = False
@@ -45,6 +47,10 @@ class Rime:
     keys_set: set[tuple[str, ...]] = None  # type: ignore
 
     def __post_init__(self) -> None:
+        r"""Post init.
+
+        :rtype: None
+        """
         if self.traits is None:
             self.traits = Traits()
         if self.ui is None:
@@ -102,9 +108,25 @@ class Rime:
 
             @self.repl.add_key_binding(*keys, filter=self.mode(keys))  # type: ignore
             def _(event: KeyPressEvent, keys: list[str] = keys) -> None:
+                r""".
+
+                :param event:
+                :type event: KeyPressEvent
+                :param keys:
+                :type keys: list[str]
+                :rtype: None
+                """
                 self.key_binding(event, keys)
 
     def key_binding(self, event: KeyPressEvent, keys: list[str]) -> None:
+        r"""Key binding.
+
+        :param event:
+        :type event: KeyPressEvent
+        :param keys:
+        :type keys: list[str]
+        :rtype: None
+        """
         text, lines, col = self.draw(keys)
         self.preedit = lines[0].strip(" " + self.ui.cursor)
         ui_text = "\n".join(lines)
@@ -119,11 +141,21 @@ class Rime:
         self.repl.app.layout.container.floats[0].top = top  # type: ignore
 
     def get_commit_text(self) -> str:
+        r"""Get commit text.
+
+        :rtype: str
+        """
         if commitComposition(self.session_id):
             return getCommit(self.session_id).text
         return ""
 
     def draw(self, keys: list[str]) -> tuple[str, list[str], int]:
+        r"""Draw.
+
+        :param keys:
+        :type keys: list[str]
+        :rtype: tuple[str, list[str], int]
+        """
         if not processKey(self.session_id, *parse_keys(keys)):
             if len(keys) == 1 == len(keys[0]):
                 return keys[0], [self.ui.cursor], 0
@@ -135,8 +167,21 @@ class Rime:
         return "", lines, col
 
     def mode(self, keys: list[str]) -> Condition:
+        r"""Mode.
+
+        :param keys:
+        :type keys: list[str]
+        :rtype: Condition
+        """
+
         @Condition
         def _(keys: list[str] = keys) -> bool:
+            r""".
+
+            :param keys:
+            :type keys: list[str]
+            :rtype: bool
+            """
             if len(keys) == 1 == len(keys[0]):
                 return self.is_enabled
             elif len(keys) == 1 or len(keys) > 1 and keys[0] == "escape":
@@ -147,23 +192,45 @@ class Rime:
         return _
 
     def filter(self, condition: Condition) -> Condition:
+        r"""Filter.
+
+        :param condition:
+        :type condition: Condition
+        :rtype: Condition
+        """
+
         @Condition
         def _(condition: Condition = condition) -> bool:
+            r""".
+
+            :param condition:
+            :type condition: Condition
+            :rtype: bool
+            """
             return not self.is_enabled and condition()
 
         return _
 
     def swap_layout(self):
+        r"""Swap layout."""
         (self.layout, self.repl.app.layout) = (  # type: ignore
             self.repl.app.layout,
             self.layout,
         )
 
     def disable(self) -> None:
+        r"""Disable.
+
+        :rtype: None
+        """
         self.swap_layout()
         self.is_enabled = False
 
     def calculate(self) -> tuple[int, int]:
+        r"""Calculate.
+
+        :rtype: tuple[int, int]
+        """
         left = 0
         for _, text in self.repl.all_prompt_styles[  # type: ignore
             self.repl.prompt_style
@@ -179,12 +246,20 @@ class Rime:
         return left, top
 
     def init_(self) -> None:
+        r"""Init.
+
+        :rtype: None
+        """
         if self.session_id == 0:
             os.makedirs(self.traits.log_dir, exist_ok=True)
             init(**vars(self.traits))
             self.session_id = createSession()
 
     def enable(self) -> None:
+        r"""Enable.
+
+        :rtype: None
+        """
         self.init_()
         left, top = self.calculate()
         self.window = Window(BufferControl(buffer=Buffer()), width=1, height=1)
@@ -206,6 +281,10 @@ class Rime:
         self.is_enabled = True
 
     def toggle(self) -> None:
+        r"""Toggle.
+
+        :rtype: None
+        """
         if self.is_enabled:
             self.disable()
         else:
