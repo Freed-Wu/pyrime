@@ -146,6 +146,13 @@ class Rime:
 
         return _
 
+    def filter(self, condition: Condition) -> Condition:
+        @Condition
+        def _(condition: Condition = condition) -> bool:
+            return not self.is_enabled and condition()
+
+        return _
+
     def swap_layout(self):
         (self.layout, self.repl.app.layout) = (  # type: ignore
             self.repl.app.layout,
