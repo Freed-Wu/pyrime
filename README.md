@@ -71,7 +71,15 @@ def configure(repl: PythonRepl) -> None:
 
     @repl.add_key_binding("c-^", filter=ViInsertMode())
     @repl.add_key_binding("c-^", filter=EmacsInsertMode())
-    @repl.add_key_binding("c-^", filter=rime.filter())
+    @repl.add_key_binding("c-^", filter=rime.mode())
+    def _(event: KeyPressEvent) -> None:
+        rime.toggle()
+```
+
+If you defined some key bindings which will disturb rime, try:
+
+```python
+    @repl.add_key_binding("c-h", filter=rime.filter(EmacsInsertMode()))
     def _(event: KeyPressEvent) -> None:
         rime.toggle()
 ```
