@@ -2,6 +2,7 @@
 #include <rime_api.h>
 
 #include "__init__.h"
+#include "config.h"
 
 #define DEFAULT_BUFFER_SIZE 1024
 
@@ -200,7 +201,7 @@ static struct PyModuleDef module = {
 
 PyMODINIT_FUNC PyInit_pyrime(void) {
   PyObject *m = PyModule_Create(&module);
-  PyModule_AddStringConstant(m, "__version__", "0.0.1");
+  PyModule_AddStringConstant(m, "__version__", PROJECT_VERSION);
   PYMODULE_ADDOBJECT(m, Composition);
   PYMODULE_ADDOBJECT(m, Candidate);
   PYMODULE_ADDOBJECT(m, Menu);
