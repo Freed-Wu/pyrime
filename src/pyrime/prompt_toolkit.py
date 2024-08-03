@@ -52,6 +52,7 @@ class Rime:
         if self.keys_set is None:
             self.keys_set = {
                 ("s-tab",),
+                ("s-escape",),
                 ("escape", "backspace"),
                 ("escape", *"[13;2u"),
                 ("escape", *"[13;3u"),
@@ -65,6 +66,7 @@ class Rime:
             for number in range(1, 24):
                 self.keys_set |= {(f"f{number}",)}
             for keyname in {
+                "insert",
                 "delete",
                 "up",
                 "down",
