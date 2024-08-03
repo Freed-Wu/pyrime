@@ -8,4 +8,8 @@ class Test:
 
     @staticmethod
     def test_parse_key() -> None:
+        r"""Test parse key.
+
+        :rtype: None
+        """
         assert parse_key("c-^", []) == parse_key("6", ["Control"])
