@@ -266,7 +266,12 @@ class Rime:
         """
         self.init_()
         left, top = self.calculate()
-        self.window = Window(BufferControl(buffer=Buffer()), width=1, height=1)
+        self.window = Window(
+            BufferControl(buffer=Buffer()),
+            width=wcswidth(self.ui.cursor),
+            height=1,
+        )
+        self.window.content.buffer.text = self.ui.cursor  # type: ignore
         self.layout = Layout(
             FloatContainer(  # type: ignore
                 self.repl.app.layout.container,
