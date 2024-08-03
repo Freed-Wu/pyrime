@@ -31,11 +31,11 @@ def parse_key(key: str, modifiers: set[str]) -> tuple[int, int]:
     :type modifiers: set[str]
     :rtype: tuple[int, int]
     """
-    key = {"c-i": "tab", "c-m": "enter", "c-space": "c-@"}.get(key, key)
+    key = {"c-i": "tab", "c-m": "enter", "c-@": "c-space"}.get(key, key)
     if key.startswith("c-"):
         modifiers |= {"Control"}
         _, _, key = key.partition("c-")
-        key = {"@": "2", "^": "6", "-": "_"}.get(key, key)
+        key = {"space": " ", "^": "6", "-": "_"}.get(key, key)
     if key.startswith("s-"):
         modifiers |= {"Shift"}
         _, _, key = key.partition("s-")
