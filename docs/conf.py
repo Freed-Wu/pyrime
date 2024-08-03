@@ -4,7 +4,10 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
 
 from pyrime import __version__ as version  # type: ignore
-from pyrime._metainfo import author, copyright, project  # type: ignore
+
+author = "Wu, Zhenyu"
+copyright = "2024"
+project = "pyrime"
 
 __all__ = ["version", "author", "copyright", "project"]
 
