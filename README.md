@@ -36,6 +36,8 @@
 [![pypi/implementation](https://shields.io/pypi/implementation/pyrime)](https://pypi.org/project/pyrime/#files)
 [![pypi/pyversions](https://shields.io/pypi/pyversions/pyrime)](https://pypi.org/project/pyrime/#files)
 
+![screenshot](https://github.com/user-attachments/assets/5c79575c-79c5-4e4f-b6ab-b9cdaad352b2)
+
 rime for python, attached to prompt-toolkit keybindings for some prompt-toolkit
 applications such as ptpython.
 
