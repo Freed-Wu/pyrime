@@ -43,6 +43,8 @@ applications such as ptpython.
 
 ```python
 from ptpython.repl import PythonRepl
+from prompt_toolkit.filters import EmacsInsertMode, ViInsertMode
+from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from pyrime.prompt_toolkit import Rime
 
 
@@ -52,6 +54,6 @@ def configure(repl: PythonRepl) -> None:
     @repl.add_key_binding("c-^", filter=ViInsertMode())
     @repl.add_key_binding("c-^", filter=EmacsInsertMode())
     @repl.add_key_binding("c-^", filter=rime.filter())
-    def _(event: "KeyPressEvent") -> None:
+    def _(event: KeyPressEvent) -> None:
         rime.toggle()
 ```
