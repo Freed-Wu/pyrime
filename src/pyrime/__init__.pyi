@@ -4,10 +4,6 @@ r"""Provide ``__version__`` for
 
 from dataclasses import dataclass
 
-from platformdirs import user_data_path
-
-from .__main__ import shared_data_dir, user_data_dir
-
 @dataclass
 class Composition:
     length: int
@@ -41,14 +37,14 @@ class Commit:
     text: str
 
 def init(
-    shared_data_dir: str = shared_data_dir,
-    user_data_dir: str = user_data_dir,
-    log_dir: str = str(user_data_path("ptpython") / "rime"),
-    distribution_name: str = "Rime",
-    distribution_code_name: str = "pyrime",
-    distribution_version: str = "0.0.1",
-    app_name: str = "rime.pyrime",
-    min_log_level: int = 0,
+    shared_data_dir: str,
+    user_data_dir: str,
+    log_dir: str,
+    distribution_name: str,
+    distribution_code_name: str,
+    distribution_version: str,
+    app_name: str,
+    min_log_level: int,
 ) -> None: ...
 def createSession() -> int: ...
 def destroySession(session_id: int) -> None: ...

@@ -12,7 +12,7 @@ with open(os.path.join(json_dir, "modifiers.json")) as f:
     modifiers_: list = json.load(f)  # type: ignore
 
 
-def parse_key(key: str, modifiers: list[str]) -> tuple[int, int]:
+def parse_key(key: str, modifiers: set[str]) -> tuple[int, int]:
     r"""Parse key. Convert prompt-toolkit key name to rime key code and mask.
 
     Refer `<https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/key_bindings.html#list-of-special-keys>`_
@@ -20,18 +20,19 @@ def parse_key(key: str, modifiers: list[str]) -> tuple[int, int]:
     :param key:
     :type key: str
     :param modifiers:
-    :type modifiers: list[str]
+    :type modifiers: set[str]
     :rtype: tuple[int, int]
     """
     key = {"c-i": "tab", "c-m": "enter", "c-space": "c-@"}.get(key, key)
     if key.startswith("c-"):
-        modifiers += ["Control"]
+        modifiers |= {"Control"}
         _, _, key = key.partition("c-")
         key = {"@": "2", "^": "6", "-": "_"}.get(key, key)
     if key.startswith("s-"):
-        modifiers += ["Shift"]
+        modifiers |= {"Shift"}
         _, _, key = key.partition("s-")
-    key = key.capitalize()
+    if len(key) > 1:
+        key = key.capitalize()
     key = {
         "Enter": "Return",
         "Pageup": "Page_Up",
@@ -44,3 +45,27 @@ def parse_key(key: str, modifiers: list[str]) -> tuple[int, int]:
         if index != -1:
             mask += 2**index
     return keycode, mask
+
+
+def parse_keys(keys: list[str]) -> tuple[int, int]:
+    r"""Parse keys.
+
+    :param keys:
+    :type keys: list[str]
+    :rtype: tuple[int, int]
+    """
+    if keys == ["escape", *"[13;2u"]:
+        key = "enter"
+        modifiers = {"Shift"}
+    elif keys == ["escape", *"[13;5u"]:
+        key = "enter"
+        modifiers = {"Control"}
+    elif len(keys) == 2 and keys[0] == "escape":
+        key = keys[1]
+        modifiers = {"Alt"}
+    elif len(keys) == 1:
+        key = keys[0]
+        modifiers = set()
+    else:
+        raise NotImplementedError
+    return parse_key(key, modifiers)

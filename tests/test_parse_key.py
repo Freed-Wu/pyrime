@@ -12,4 +12,4 @@ class Test:
 
         :rtype: None
         """
-        assert parse_key("c-^", []) == parse_key("6", ["Control"])
+        assert parse_key("c-^", set()) == parse_key("6", {"Control"})
