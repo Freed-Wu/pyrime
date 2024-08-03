@@ -175,7 +175,9 @@ static PyObject *commitComposition(PyObject *self, PyObject *args) {
 }
 
 static PyObject *clearComposition(PyObject *self, PyObject *args) {
-  RimeSessionId session_id = RimeCreateSession();
+  RimeSessionId session_id;
+  if (!PyArg_ParseTuple(args, "k|", &session_id))
+    return NULL;
   RimeClearComposition(session_id);
   Py_RETURN_NONE;
 }

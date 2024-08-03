@@ -83,3 +83,39 @@ If you defined some key bindings which will disturb rime, try:
     def _(event: KeyPressEvent) -> None:
         rime.toggle()
 ```
+
+If you want to exit rime in `ViNavigationMode()`, try:
+
+```python
+    @repl.add_key_binding("escape", filter=EmacsInsertMode())
+    def _(event: KeyPressEvent) -> None:
+        """.
+
+        :param event:
+        :type event: KeyPressEvent
+        :rtype: None
+        """
+        event.app.editing_mode = EditingMode.VI
+        event.app.vi_state.input_mode = InputMode.NAVIGATION
+        rime.conditional_disable()
+
+    # and a, I, A, ...
+    @repl.add_key_binding("i", filter=ViNavigationMode())
+    def _(event: KeyPressEvent) -> None:
+        """.
+
+        :param event:
+        :type event: KeyPressEvent
+        :rtype: None
+        """
+        event.app.editing_mode = EditingMode.EMACS
+        event.app.vi_state.input_mode = InputMode.INSERT
+        rime.conditional_enable()
+```
+
+It will remember rime status and enable it when reenter `ViInsertMode()` or
+`EmacsInsertMode()`.
+
+Some utility functions are defined in this project. Refer
+[my ptpython config](https://github.com/Freed-Wu/Freed-Wu/blob/main/.config/ptpython/config.py)
+to know more.

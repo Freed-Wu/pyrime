@@ -20,6 +20,7 @@ from ptpython.repl import PythonRepl
 from wcwidth import wcswidth
 
 from . import (
+    clearComposition,
     commitComposition,
     createSession,
     getCommit,
@@ -39,6 +40,7 @@ class Rime:
     repl: PythonRepl
     session_id: int = 0
     is_enabled: bool = False
+    remember_rime: bool = False
     preedit: str = ""
     window: Window = None  # type: ignore
     layout: Layout | None = None
@@ -226,6 +228,7 @@ class Rime:
         self.swap_layout()
         self.is_enabled = False
         self.preedit = ""
+        clearComposition(self.session_id)
 
     def calculate(self) -> tuple[int, int]:
         r"""Calculate.
@@ -280,6 +283,23 @@ class Rime:
         )
         self.swap_layout()
         self.is_enabled = True
+
+    def conditional_disable(self) -> None:
+        r"""Conditional disable.
+
+        :rtype: None
+        """
+        if self.is_enabled:
+            self.remember_rime = True
+            self.disable()
+
+    def conditional_enable(self) -> None:
+        r"""Conditional enable.
+
+        :rtype: None
+        """
+        if self.remember_rime:
+            self.enable()
 
     def toggle(self) -> None:
         r"""Toggle.
