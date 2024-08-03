@@ -100,7 +100,7 @@ class Rime:
         for keys in self.keys_set:
             keys = list(keys)
 
-            @self.repl.add_key_binding(*keys, filter=self.filter(keys))  # type: ignore
+            @self.repl.add_key_binding(*keys, filter=self.mode(keys))  # type: ignore
             def _(event: KeyPressEvent, keys: list[str] = keys) -> None:
                 self.key_binding(event, keys)
 
@@ -134,7 +134,7 @@ class Rime:
         lines, col = draw_ui(context, self.ui)
         return "", lines, col
 
-    def filter(self, keys: list[str]) -> Condition:
+    def mode(self, keys: list[str]) -> Condition:
         @Condition
         def _(keys: list[str] = keys) -> bool:
             if len(keys) == 1 == len(keys[0]):
