@@ -39,6 +39,24 @@
 rime for python, attached to prompt-toolkit keybindings for some prompt-toolkit
 applications such as ptpython.
 
+## Dependence
+
+- [librime](https://github.com/rime/librime)
+
+```sh
+# Ubuntu
+sudo apt-get -y install librime-dev librime1
+sudo apt-mark auto librime-dev
+# ArchLinux
+sudo pacman -S librime
+# Android Termux
+apt-get -y install librime
+# Nix
+# use nix-shell to create a virtual environment then build
+```
+
+## Configure
+
 `~/.config/ptpython/config.py`:
 
 ```python
