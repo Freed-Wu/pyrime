@@ -201,22 +201,24 @@ class Rime:
 
         return _
 
-    def filter(self, condition: Condition) -> Condition:
+    def filter(self, condition: Condition | None = None) -> Condition:
         r"""Filter.
 
         :param condition:
-        :type condition: Condition
+        :type condition: Condition | None
         :rtype: Condition
         """
 
         @Condition
-        def _(condition: Condition = condition) -> bool:
+        def _(condition: Condition | None = condition) -> bool:
             r""".
 
             :param condition:
-            :type condition: Condition
+            :type condition: Condition | None
             :rtype: bool
             """
+            if condition is None:
+                return self.preedit == ""
             return self.preedit == "" and condition()
 
         return _

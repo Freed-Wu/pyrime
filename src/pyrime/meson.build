@@ -28,6 +28,7 @@ py.install_sources(
 )
 py.install_sources(
   [
+    'utils/condition.py',
     'utils/ansi.py',
     'utils/insert.py',
     'utils/prompt_style.py',
