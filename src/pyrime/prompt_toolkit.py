@@ -185,7 +185,7 @@ class Rime:
             if len(keys) == 1 == len(keys[0]):
                 return self.is_enabled
             elif len(keys) == 1 or len(keys) > 1 and keys[0] == "escape":
-                return self.is_enabled and self.preedit != ""
+                return self.preedit != ""
             else:
                 raise NotImplementedError
 
@@ -207,7 +207,7 @@ class Rime:
             :type condition: Condition
             :rtype: bool
             """
-            return not self.is_enabled and condition()
+            return self.preedit == "" and condition()
 
         return _
 
@@ -225,6 +225,7 @@ class Rime:
         """
         self.swap_layout()
         self.is_enabled = False
+        self.preedit = ""
 
     def calculate(self) -> tuple[int, int]:
         r"""Calculate.
