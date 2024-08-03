@@ -25,7 +25,7 @@ class Candidate:
 class Menu:
     page_size: int
     page_no: int
-    is_last_page: bool
+    is_last_page: int
     highlighted_candidate_index: int
     num_candidates: int
     select_keys: str | None
