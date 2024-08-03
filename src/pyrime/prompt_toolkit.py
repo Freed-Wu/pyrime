@@ -30,7 +30,15 @@ from . import (
 )
 from .__main__ import Traits
 from .draw_ui import UI, draw_ui
-from .parse_key import parse_keys
+from .parse_key import (
+    ALT_SHIFT_CR,
+    CONTROL_ALT_CR,
+    CONTROL_ALT_SHIFT_CR,
+    CONTROL_CR,
+    CONTROL_SHIFT_CR,
+    SHIFT_CR,
+    parse_keys,
+)
 
 
 @dataclass
@@ -62,12 +70,12 @@ class Rime:
                 ("s-tab",),
                 ("s-escape",),
                 ("escape", "backspace"),
-                ("escape", *"[13;2u"),
-                ("escape", *"[13;3u"),
-                ("escape", *"[13;5u"),
-                ("escape", *"[13;6u"),
-                ("escape", *"[13;7u"),
-                ("escape", *"[13;8u"),
+                tuple(SHIFT_CR),
+                tuple(ALT_SHIFT_CR),
+                tuple(CONTROL_CR),
+                tuple(CONTROL_SHIFT_CR),
+                tuple(CONTROL_ALT_CR),
+                tuple(CONTROL_ALT_SHIFT_CR),
             }
             for order in range(ord(" "), ord("~") + 1):
                 self.keys_set |= {(chr(order),)}

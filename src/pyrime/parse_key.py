@@ -11,6 +11,14 @@ with open(os.path.join(json_dir, "keys.json")) as f:
 with open(os.path.join(json_dir, "modifiers.json")) as f:
     modifiers_: list = json.load(f)  # type: ignore
 
+SHIFT_CR = ["escape", *"[13;2u"]
+ALT_CR = ["escape", "enter"]
+ALT_SHIFT_CR = ["escape", *"[13;4u"]
+CONTROL_CR = ["escape", *"[13;5u"]
+CONTROL_SHIFT_CR = ["escape", *"[13;6u"]
+CONTROL_ALT_CR = ["escape", *"[13;7u"]
+CONTROL_ALT_SHIFT_CR = ["escape", *"[13;8u"]
+
 
 def parse_key(key: str, modifiers: set[str]) -> tuple[int, int]:
     r"""Parse key. Convert prompt-toolkit key name to rime key code and mask.
@@ -54,22 +62,22 @@ def parse_keys(keys: list[str]) -> tuple[int, int]:
     :type keys: list[str]
     :rtype: tuple[int, int]
     """
-    if keys == ["escape", *"[13;2u"]:
+    if keys == SHIFT_CR:
         key = "enter"
         modifiers = {"Shift"}
-    elif keys == ["escape", *"[13;3u"]:
+    elif keys == ALT_SHIFT_CR:
         key = "enter"
         modifiers = {"Shift", "Alt"}
-    elif keys == ["escape", *"[13;5u"]:
+    elif keys == CONTROL_CR:
         key = "enter"
         modifiers = {"Control"}
-    elif keys == ["escape", *"[13;6u"]:
+    elif keys == CONTROL_SHIFT_CR:
         key = "enter"
         modifiers = {"Shift", "Control"}
-    elif keys == ["escape", *"[13;7u"]:
+    elif keys == CONTROL_ALT_CR:
         key = "enter"
         modifiers = {"Alt", "Control"}
-    elif keys == ["escape", *"[13;8u"]:
+    elif keys == CONTROL_ALT_SHIFT_CR:
         key = "enter"
         modifiers = {"Shift", "Alt", "Control"}
     elif len(keys) == 2 and keys[0] == "escape":
