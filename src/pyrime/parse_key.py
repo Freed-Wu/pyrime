@@ -38,7 +38,7 @@ def parse_key(key: str, modifiers: set[str]) -> tuple[int, int]:
         "Pageup": "Page_Up",
         "Pagedown": "Page_Down",
     }.get(key, key)
-    keycode = keys.get(key, ord(key))
+    keycode = keys.get(key, ord(key[0]))
     mask = 0
     for modifier in modifiers:
         index = modifiers_.index(modifier)
@@ -57,9 +57,21 @@ def parse_keys(keys: list[str]) -> tuple[int, int]:
     if keys == ["escape", *"[13;2u"]:
         key = "enter"
         modifiers = {"Shift"}
+    elif keys == ["escape", *"[13;3u"]:
+        key = "enter"
+        modifiers = {"Shift", "Alt"}
     elif keys == ["escape", *"[13;5u"]:
         key = "enter"
         modifiers = {"Control"}
+    elif keys == ["escape", *"[13;6u"]:
+        key = "enter"
+        modifiers = {"Shift", "Control"}
+    elif keys == ["escape", *"[13;7u"]:
+        key = "enter"
+        modifiers = {"Alt", "Control"}
+    elif keys == ["escape", *"[13;8u"]:
+        key = "enter"
+        modifiers = {"Shift", "Alt", "Control"}
     elif len(keys) == 2 and keys[0] == "escape":
         key = keys[1]
         modifiers = {"Alt"}
