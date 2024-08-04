@@ -7,21 +7,22 @@ Refer `vim-smartinput <https://github.com/kana/vim-smartinput>`_.
 """
 
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
-from ptpython.repl import PythonRepl
 
+from ..prompt_toolkit import Rime
 from ..utils.condition import InsertMode
 
 
-def smartinput(repl: PythonRepl) -> None:
+def smartinput(rime: Rime) -> None:
     r"""Smartinput.
 
-    :param repl:
-    :type repl: PythonRepl
+    :param rime:
+    :type rime: Rime
     :rtype: None
     """
+    repl = rime.repl
 
     # One {{{1 #
-    @repl.add_key_binding(",", filter=InsertMode())
+    @repl.add_key_binding(",", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -39,7 +40,7 @@ def smartinput(repl: PythonRepl) -> None:
 
     # Two {{{1 #
     # Operation {{{2 #
-    @repl.add_key_binding("+", filter=InsertMode())
+    @repl.add_key_binding("+", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -53,7 +54,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" + ")
 
-    @repl.add_key_binding("@", filter=InsertMode())
+    @repl.add_key_binding("@", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -70,7 +71,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" @ ")
 
-    @repl.add_key_binding("*", filter=InsertMode())
+    @repl.add_key_binding("*", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -84,7 +85,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" * ")
 
-    @repl.add_key_binding("*", "*", filter=InsertMode())
+    @repl.add_key_binding("*", "*", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -98,7 +99,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" ** ")
 
-    @repl.add_key_binding("/", "/", filter=InsertMode())
+    @repl.add_key_binding("/", "/", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -112,7 +113,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" // ")
 
-    @repl.add_key_binding("%", filter=InsertMode())
+    @repl.add_key_binding("%", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -129,7 +130,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" % ")
 
-    @repl.add_key_binding("&", filter=InsertMode())
+    @repl.add_key_binding("&", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -143,7 +144,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" & ")
 
-    @repl.add_key_binding("|", filter=InsertMode())
+    @repl.add_key_binding("|", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -157,7 +158,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" | ")
 
-    @repl.add_key_binding("^", filter=InsertMode())
+    @repl.add_key_binding("^", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -171,7 +172,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" ^ ")
 
-    @repl.add_key_binding("<", "<", filter=InsertMode())
+    @repl.add_key_binding("<", "<", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -185,7 +186,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" << ")
 
-    @repl.add_key_binding(">", ">", filter=InsertMode())
+    @repl.add_key_binding(">", ">", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -202,7 +203,7 @@ def smartinput(repl: PythonRepl) -> None:
     # 1}}} Operation #
 
     # Relation {{{2 #
-    @repl.add_key_binding("<", filter=InsertMode())
+    @repl.add_key_binding("<", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -216,7 +217,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" < ")
 
-    @repl.add_key_binding(">", filter=InsertMode())
+    @repl.add_key_binding(">", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -230,7 +231,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" > ")
 
-    @repl.add_key_binding(":", "=", filter=InsertMode())
+    @repl.add_key_binding(":", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -244,7 +245,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" := ")
 
-    @repl.add_key_binding("=", "=", filter=InsertMode())
+    @repl.add_key_binding("=", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -258,7 +259,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" == ")
 
-    @repl.add_key_binding("!", "=", filter=InsertMode())
+    @repl.add_key_binding("!", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -272,7 +273,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" != ")
 
-    @repl.add_key_binding("<", "=", filter=InsertMode())
+    @repl.add_key_binding("<", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -286,7 +287,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" <= ")
 
-    @repl.add_key_binding(">", "=", filter=InsertMode())
+    @repl.add_key_binding(">", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -303,7 +304,7 @@ def smartinput(repl: PythonRepl) -> None:
     # 1}}} Relation #
 
     # Assign {{{2 #
-    @repl.add_key_binding("=", filter=InsertMode())
+    @repl.add_key_binding("=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -317,7 +318,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" = ")
 
-    @repl.add_key_binding("+", "=", filter=InsertMode())
+    @repl.add_key_binding("+", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -331,7 +332,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" += ")
 
-    @repl.add_key_binding("-", "=", filter=InsertMode())
+    @repl.add_key_binding("-", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -345,7 +346,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" -= ")
 
-    @repl.add_key_binding("@", "=", filter=InsertMode())
+    @repl.add_key_binding("@", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -359,7 +360,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" @= ")
 
-    @repl.add_key_binding("*", "=", filter=InsertMode())
+    @repl.add_key_binding("*", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -373,7 +374,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" *= ")
 
-    @repl.add_key_binding("/", "=", filter=InsertMode())
+    @repl.add_key_binding("/", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -387,7 +388,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" /= ")
 
-    @repl.add_key_binding("*", "*", "=", filter=InsertMode())
+    @repl.add_key_binding("*", "*", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -401,7 +402,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" **= ")
 
-    @repl.add_key_binding("/", "/", "=", filter=InsertMode())
+    @repl.add_key_binding("/", "/", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -415,7 +416,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" //= ")
 
-    @repl.add_key_binding("%", "=", filter=InsertMode())
+    @repl.add_key_binding("%", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -429,7 +430,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" %= ")
 
-    @repl.add_key_binding("&", "=", filter=InsertMode())
+    @repl.add_key_binding("&", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -443,7 +444,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" &= ")
 
-    @repl.add_key_binding("|", "=", filter=InsertMode())
+    @repl.add_key_binding("|", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -457,7 +458,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" |= ")
 
-    @repl.add_key_binding("^", "=", filter=InsertMode())
+    @repl.add_key_binding("^", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -471,7 +472,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" ^= ")
 
-    @repl.add_key_binding("<", "<", "=", filter=InsertMode())
+    @repl.add_key_binding("<", "<", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -485,7 +486,7 @@ def smartinput(repl: PythonRepl) -> None:
         else:
             b.insert_text(" <<= ")
 
-    @repl.add_key_binding(">", ">", "=", filter=InsertMode())
+    @repl.add_key_binding(">", ">", "=", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 

@@ -54,7 +54,7 @@ def autopair(rime: Rime) -> None:
                 break
         backward_delete_char(event)
 
-    @repl.add_key_binding("[", filter=InsertMode())
+    @repl.add_key_binding("[", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -65,7 +65,7 @@ def autopair(rime: Rime) -> None:
         event.cli.current_buffer.insert_text("[]")
         backward_char(event)
 
-    @repl.add_key_binding("]", filter=InsertMode())
+    @repl.add_key_binding("]", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -79,7 +79,7 @@ def autopair(rime: Rime) -> None:
         else:
             forward_char(event)
 
-    @repl.add_key_binding("(", filter=InsertMode())
+    @repl.add_key_binding("(", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -90,7 +90,7 @@ def autopair(rime: Rime) -> None:
         event.cli.current_buffer.insert_text("()")
         backward_char(event)
 
-    @repl.add_key_binding(")", filter=InsertMode())
+    @repl.add_key_binding(")", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -104,7 +104,7 @@ def autopair(rime: Rime) -> None:
         else:
             forward_char(event)
 
-    @repl.add_key_binding("{", filter=InsertMode())
+    @repl.add_key_binding("{", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -115,7 +115,7 @@ def autopair(rime: Rime) -> None:
         event.cli.current_buffer.insert_text("{}")
         backward_char(event)
 
-    @repl.add_key_binding("}", filter=InsertMode())
+    @repl.add_key_binding("}", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -129,7 +129,7 @@ def autopair(rime: Rime) -> None:
         else:
             forward_char(event)
 
-    @repl.add_key_binding("'", filter=InsertMode())
+    @repl.add_key_binding("'", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -144,7 +144,7 @@ def autopair(rime: Rime) -> None:
         else:
             forward_char(event)
 
-    @repl.add_key_binding("`", filter=InsertMode())
+    @repl.add_key_binding("`", filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -159,7 +159,7 @@ def autopair(rime: Rime) -> None:
         else:
             forward_char(event)
 
-    @repl.add_key_binding('"', filter=InsertMode())
+    @repl.add_key_binding('"', filter=rime.filter(InsertMode))
     def _(event: KeyPressEvent) -> None:
         """.
 
