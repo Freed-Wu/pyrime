@@ -31,7 +31,8 @@ classifiers = [
 [project.optional-dependencies]
 color = ["colorama"]
 dev = ["pytest-cov", "wcwidth"]
-prompt-toolkit = ["prompt-toolkit", "platformdirs", "wcwidth"]
+prompt-toolkit = ["prompt-toolkit", "platformdirs"]
+ptpython = ["ptpython", "platformdirs"]
 
 [[project.authors]]
 name = "Wu, Zhenyu"
