@@ -47,14 +47,19 @@ applications such as ptpython.
 
 ```sh
 # Ubuntu
-sudo apt-get -y install librime-dev librime1
-sudo apt-mark auto librime-dev
+sudo apt-get -y install librime-dev librime1 pkg-config
+sudo apt-mark auto librime-dev pkg-config
 # ArchLinux
-sudo pacman -S librime
+sudo pacman -S --noconfirm librime pkg-config
 # Android Termux
-apt-get -y install librime
+apt-get -y install librime pkg-config
 # Nix
 # use nix-shell to create a virtual environment then build
+# homebrew
+brew tap tonyfettes/homebrew-rime
+brew install librime pkg-config
+# Windows msys2
+pacboy -S --noconfirm pkg-config:x librime:x gcc:x
 ```
 
 ## Configure
