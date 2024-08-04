@@ -42,7 +42,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install librime-dev util-linux
+          sudo apt-get -y install librime-dev
       - name: Install dependencies
         if: runner.os == 'macOS'
         run: |
@@ -90,7 +90,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install librime-dev
+          sudo apt-get -y install librime-dev rename
       - name: Install dependencies
         if: runner.os == 'macOS'
         run: |
@@ -118,7 +118,7 @@ jobs:
           pyproject-build
       - if: runner.os == 'Linux'
         run: |
-          rename linux manylinux_2_17 dist/*
+          rename s/linux/manylinux_2_17/ dist/*
       - uses: pypa/gh-action-pypi-publish@release/v1
         if: runner.os == 'Linux' && startsWith(github.ref, 'refs/tags/')
         with:
