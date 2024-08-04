@@ -42,7 +42,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install librime-dev
+          sudo apt-get -y install librime-dev util-linux
       - name: Install dependencies
         if: runner.os == 'macOS'
         run: |
