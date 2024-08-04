@@ -20,7 +20,6 @@ py.install_sources(
   [
     '__init__.pyi',
     '__main__.py',
-    'prompt_toolkit.py',
     'parse_key.py',
     'draw_ui.py',
   ],
@@ -28,12 +27,27 @@ py.install_sources(
 )
 py.install_sources(
   [
-    'utils/condition.py',
-    'utils/ansi.py',
-    'utils/insert.py',
-    'utils/prompt_style.py',
+    'prompt_toolkit/__init__.py',
   ],
-  subdir: 'pyrime/utils',
+  subdir: 'pyrime/prompt_toolkit',
+)
+py.install_sources(
+  [
+    'prompt_toolkit/utils/condition.py',
+    'prompt_toolkit/utils/ansi.py',
+    'prompt_toolkit/utils/insert.py',
+    'prompt_toolkit/utils/prompt_style.py',
+  ],
+  subdir: 'pyrime/prompt_toolkit/utils',
+)
+py.install_sources(
+  [
+    'prompt_toolkit/plugins/autopair.py',
+    'prompt_toolkit/plugins/autosuggestion.py',
+    'prompt_toolkit/plugins/smartinsert.py',
+    'prompt_toolkit/plugins/viemacs.py',
+  ],
+  subdir: 'pyrime/prompt_toolkit/plugins',
 )
 py.install_sources(
   ['assets/json/keys.json', 'assets/json/modifiers.json'],
