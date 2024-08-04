@@ -117,6 +117,7 @@ jobs:
         run: |
           pyproject-build
       - if: runner.os == 'Linux'
+        shell: cmd
         run: |
           rename s/linux/manylinux_2_17/ dist/*
       - if: runner.os == 'Windows'
