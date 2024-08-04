@@ -120,9 +120,12 @@ jobs:
         run: |
           rename s/linux/manylinux_2_17/ dist/*
       - if: runner.os == 'Windows'
-        shell: cmd
+        shell: pwsh
         run: |
-          rename pyrime-*-mingw_x86_64.whl pyrime-*-win_amd64.whl
+          Get-ChildItem -Filter "*-mingw_x86_64.whl" | ForEach-Object {
+              $newName = $_.Name -replace "-mingw_x86_64", "-win_amd64"
+              Rename-Item -Path $_.FullName -NewName $newName
+          }
       - uses: pypa/gh-action-pypi-publish@release/v1
         if: runner.os == 'Linux' && startsWith(github.ref, 'refs/tags/')
         with:
