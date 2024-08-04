@@ -44,7 +44,7 @@ py.install_sources(
   [
     'prompt_toolkit/plugins/autopair.py',
     'prompt_toolkit/plugins/autosuggestion.py',
-    'prompt_toolkit/plugins/smartinsert.py',
+    'prompt_toolkit/plugins/smartinput.py',
     'prompt_toolkit/plugins/viemacs.py',
   ],
   subdir: 'pyrime/prompt_toolkit/plugins',
