@@ -120,6 +120,9 @@ jobs:
         if: runner.os == 'Linux' && startsWith(github.ref, 'refs/tags/')
         with:
           password: ${{secrets.PYPI_API_TOKEN}}
+      - if: runner.os == 'Linux'
+        run: |
+          rename linux manylinux_2_17 dist/*
       - uses: actions/upload-artifact@v4
         if: runner.os == 'Linux' && ! startsWith(github.ref, 'refs/tags/')
         with:
