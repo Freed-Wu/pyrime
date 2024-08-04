@@ -117,10 +117,10 @@ jobs:
         run: |
           pyproject-build
       - if: runner.os == 'Linux'
-        shell: cmd
         run: |
           rename s/linux/manylinux_2_17/ dist/*
       - if: runner.os == 'Windows'
+        shell: cmd
         run: |
           rename pyrime-*-mingw_x86_64.whl pyrime-*-win_amd64.whl
       - uses: pypa/gh-action-pypi-publish@release/v1
