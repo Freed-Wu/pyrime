@@ -8,7 +8,7 @@ Refer `vim-smartinput <https://github.com/kana/vim-smartinput>`_.
 
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 
-from ..prompt_toolkit import Rime
+from .. import Rime
 from ..utils.condition import InsertMode
 
 

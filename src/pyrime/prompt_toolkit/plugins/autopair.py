@@ -12,7 +12,7 @@ from prompt_toolkit.key_binding.bindings.named_commands import (
 )
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 
-from ...prompt_toolkit import Rime
+from .. import Rime
 from ..utils.condition import InsertMode
 
 
