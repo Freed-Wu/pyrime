@@ -38,11 +38,12 @@ def autosuggestion(repl: PythonRepl) -> None:
         )
 
     @repl.add_key_binding(
-        "right", filter=suggestion_available & ViInsertMode()
+        "right",
+        filter=suggestion_available & ViInsertMode(),  # type: ignore
     )
-    @repl.add_key_binding("right", filter=suggestion_available & emacs_mode)
-    @repl.add_key_binding("c-f", filter=suggestion_available & ViInsertMode())
-    @repl.add_key_binding("c-f", filter=suggestion_available & emacs_mode)
+    @repl.add_key_binding("right", filter=suggestion_available & emacs_mode)  # type: ignore
+    @repl.add_key_binding("c-f", filter=suggestion_available & ViInsertMode())  # type: ignore
+    @repl.add_key_binding("c-f", filter=suggestion_available & emacs_mode)  # type: ignore
     def _(event: "KeyPressEvent") -> None:
         """.
 
@@ -59,7 +60,9 @@ def autosuggestion(repl: PythonRepl) -> None:
             )
 
     @repl.add_key_binding(
-        "c-]", Keys.Any, filter=suggestion_available & emacs_mode
+        "c-]",
+        Keys.Any,  # type: ignore
+        filter=suggestion_available & emacs_mode,  # type: ignore
     )
     def _(event: "KeyPressEvent") -> None:
         """.

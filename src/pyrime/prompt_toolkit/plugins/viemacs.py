@@ -23,7 +23,7 @@ from .. import Rime
 def viemacs(rime: Rime) -> None:
     repl = rime.repl
 
-    @repl.add_key_binding("escape", filter=EmacsInsertMode())
+    @repl.add_key_binding("escape", filter=EmacsInsertMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -35,7 +35,7 @@ def viemacs(rime: Rime) -> None:
         event.app.vi_state.input_mode = InputMode.NAVIGATION
         rime.conditional_disable()
 
-    @repl.add_key_binding("i", filter=ViNavigationMode())
+    @repl.add_key_binding("i", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -47,7 +47,7 @@ def viemacs(rime: Rime) -> None:
         event.app.vi_state.input_mode = InputMode.INSERT
         rime.conditional_enable()
 
-    @repl.add_key_binding("a", filter=ViNavigationMode())
+    @repl.add_key_binding("a", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -62,7 +62,7 @@ def viemacs(rime: Rime) -> None:
         )
         rime.conditional_enable()
 
-    @repl.add_key_binding("I", filter=ViNavigationMode())
+    @repl.add_key_binding("I", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -79,7 +79,7 @@ def viemacs(rime: Rime) -> None:
         )
         rime.conditional_enable()
 
-    @repl.add_key_binding("A", filter=ViNavigationMode())
+    @repl.add_key_binding("A", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -94,7 +94,7 @@ def viemacs(rime: Rime) -> None:
         )
         rime.conditional_enable()
 
-    @repl.add_key_binding("o", filter=ViNavigationMode())
+    @repl.add_key_binding("o", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -107,7 +107,7 @@ def viemacs(rime: Rime) -> None:
         event.current_buffer.insert_line_below(copy_margin=not in_paste_mode())
         rime.conditional_enable()
 
-    @repl.add_key_binding("O", filter=ViNavigationMode())
+    @repl.add_key_binding("O", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -120,7 +120,7 @@ def viemacs(rime: Rime) -> None:
         event.current_buffer.insert_line_above(copy_margin=not in_paste_mode())
         rime.conditional_enable()
 
-    @repl.add_key_binding("s", filter=ViNavigationMode())
+    @repl.add_key_binding("s", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -134,7 +134,7 @@ def viemacs(rime: Rime) -> None:
         event.app.clipboard.set_text(text)
         rime.conditional_enable()
 
-    @repl.add_key_binding("C", filter=ViNavigationMode())
+    @repl.add_key_binding("C", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
@@ -152,8 +152,8 @@ def viemacs(rime: Rime) -> None:
         event.app.clipboard.set_text(deleted)
         rime.conditional_enable()
 
-    @repl.add_key_binding("c", "c", filter=ViNavigationMode())
-    @repl.add_key_binding("S", filter=ViNavigationMode())
+    @repl.add_key_binding("c", "c", filter=ViNavigationMode())  # type: ignore
+    @repl.add_key_binding("S", filter=ViNavigationMode())  # type: ignore
     def _(event: KeyPressEvent) -> None:
         """.
 
