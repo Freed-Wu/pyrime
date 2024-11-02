@@ -1,0 +1,28 @@
+Source: pyrime
+Section: utils
+Priority: optional
+Maintainer: Wu, Zhenyu <wuzhenyu@ustc.edu>
+Uploaders: Wu, Zhenyu <wuzhenyu@ustc.edu>
+Build-Depends: debhelper-compat (= 9),
+               dh-python,
+               dh-sequence-python3,
+               librime-dev,
+               patchelf,
+               pybuild-plugin-pyproject,
+               python3,
+               python3-mesonpy
+Rules-Requires-Root: no
+Standards-Version: 4.6.0
+Homepage: https://github.com/Freed-Wu/pyrime
+Vcs-Git: https://github.com/Freed-Wu/pyrime
+Vcs-Browser: https://github.com/Freed-Wu/pyrime
+
+Package: python3-pyrime
+Architecture: amd64 arm64 armel armhf i386 mips64el mipsel powerpc s390x
+Multi-Arch: foreign
+Depends: librime1,
+         python3,
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Description: rime for python, attached to prompt-toolkit keybindings for some prompt-toolkit applications such as ptpython

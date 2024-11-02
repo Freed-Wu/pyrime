@@ -1,3 +1,6 @@
+.mesonpy-native-file.ini
+.pybuild/
+
 # create by https://github.com/iamcco/coc-gitignore (Wed Jul 31 2024 23:45:11 GMT+0800 (China Standard Time))
 # Python.gitignore:
 # Byte-compiled / optimized / DLL files

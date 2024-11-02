@@ -1,5 +1,12 @@
-py = import('python').find_installation(pure: false)
 rime_dep = dependency('rime')
+deps = [rime_dep]
+# ubuntu jammy
+if meson.version().version_compare('<=0.61.2')
+  py = import('python').find_installation()
+  python_dep = dependency('python3')
+  deps += [python_dep]
+endif
+py = import('python').find_installation(pure: false)
 
 conf_data = configuration_data()
 conf_data.set_quoted(
@@ -12,7 +19,7 @@ conf_file = configure_file(output: 'config.h', configuration: conf_data)
 py.extension_module(
   '__init__',
   ['__init__.c', conf_file],
-  dependencies: [rime_dep],
+  dependencies: deps,
   subdir: 'pyrime',
   install: true,
 )

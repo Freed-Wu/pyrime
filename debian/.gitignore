@@ -1,0 +1,13 @@
+# debmake
+/copyright
+/changelog
+
+/.debhelper/
+/debhelper-build-stamp
+/files
+/*.substvars
+*.log
+*.debhelper
+
+DEBIAN/
+usr/
