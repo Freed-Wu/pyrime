@@ -36,6 +36,12 @@
 [![pypi/implementation](https://shields.io/pypi/implementation/pyrime)](https://pypi.org/project/pyrime/#files)
 [![pypi/pyversions](https://shields.io/pypi/pyversions/pyrime)](https://pypi.org/project/pyrime/#files)
 
+[![aur/votes](https://img.shields.io/aur/votes/python-pyrime)](https://aur.archlinux.org/packages/python-pyrime)
+[![aur/popularity](https://img.shields.io/aur/popularity/python-pyrime)](https://aur.archlinux.org/packages/python-pyrime)
+[![aur/maintainer](https://img.shields.io/aur/maintainer/python-pyrime)](https://aur.archlinux.org/packages/python-pyrime)
+[![aur/last-modified](https://img.shields.io/aur/last-modified/python-pyrime)](https://aur.archlinux.org/packages/python-pyrime)
+[![aur/version](https://img.shields.io/aur/version/python-pyrime)](https://aur.archlinux.org/packages/python-pyrime)
+
 ![screenshot](https://github.com/user-attachments/assets/5c79575c-79c5-4e4f-b6ab-b9cdaad352b2)
 
 rime for python, attached to prompt-toolkit keybindings for some prompt-toolkit
