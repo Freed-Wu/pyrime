@@ -32,7 +32,10 @@ jobs:
     runs-on: ${{matrix.runs-on}}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          perl -pi -e"s/(?<=version: ')[^']+/$GITHUB_REF_NAME/g" meson.build
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{env.python-version}}
           cache: ${{env.cache}}
@@ -66,7 +69,7 @@ jobs:
         run: |
           pip install .[dev]
           pytest --cov
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
 
   build:
     needs: test
@@ -149,7 +152,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           password: ${{secrets.PYPI_API_TOKEN}}
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           # body_path: build/CHANGELOG.md
