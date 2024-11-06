@@ -8,10 +8,15 @@ from dataclasses import dataclass
 from platformdirs import user_data_path
 
 shared_data_dir = ""
+eprefix = os.getenv(
+    "PREFIX",
+    os.path.dirname(os.path.dirname(os.getenv("SHELL", "/bin/sh"))),
+)
 for prefix in [
-    os.getenv("PREFIX", "/usr/share"),
-    "/usr/local/share",
-    "/run/current-system/sw/share",
+    # /usr merge: /usr/bin/sh -> /usr/share/rime-data
+    os.path.join(eprefix, "share"),
+    # non /usr merge: /bin/sh -> /usr/share/rime-data
+    os.path.join(eprefix, "usr/share"),
     "/sdcard",
 ]:
     path = os.path.expanduser(os.path.join(prefix, "rime-data"))
