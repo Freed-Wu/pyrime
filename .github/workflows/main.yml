@@ -102,17 +102,33 @@ jobs:
           brew install librime
       - name: Install dependencies
         if: runner.os == 'Windows'
+        # Dist currently only works with Git or Mercurial repos
         run: |
           pacman -Sy --noconfirm mingw-w64-x86_64-gcc \
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-ninja \
-          mingw-w64-x86_64-librime
+          mingw-w64-x86_64-librime \
+          mingw-w64-x86_64-python-build git
+      - name: Upgrade version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          perl -pi -e"s/(?<=version: ')[^']+/$GITHUB_REF_NAME/g" meson.build
       - name: Install common dependencies
+        if: runner.os != 'Windows'
+        # windows uses msys2's pip's python-build
+        # ERROR Command '['D:/a/_temp/msys64/mingw64/bin/python.exe', '-m',
+        # 'pip', '--python',
+        # 'D:/a/_temp/msys64/tmp/build-env-6w5hd7wi/bin/python.exe', 'install',
+        # '--use-pep517', '--no-warn-script-location', '--no-compile', '-r',
+        # 'D:/a/_temp/msys64/tmp/build-reqs-zy4dg0x1.txt']' returned non-zero
+        # exit status 1.
+        # ubuntu uses apt's pip's python-build
+        # ERROR Virtual environment creation failed, executable
+        # /tmp/build-env-c4hi79lc/local/bin/python missing
         run: |
           pip install build
       - name: Build
         run: |
-          perl -pi -e"s/(?<=version: ')[^']+/$GITHUB_REF_NAME/g" meson.build
           pyproject-build
       - if: runner.os == 'Linux'
         run: |
