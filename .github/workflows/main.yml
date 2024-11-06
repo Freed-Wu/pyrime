@@ -113,6 +113,11 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           perl -pi -e"s/(?<=version: ')[^']+/$GITHUB_REF_NAME/g" meson.build
+          git add -A
+          git config --global user.name 'Github Actions'
+          git config --global user.email \
+          '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m ":bookmark: Dump version"
       - name: Install common dependencies
         if: runner.os != 'Windows'
         # windows uses msys2's pip's python-build
