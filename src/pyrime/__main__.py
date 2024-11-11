@@ -17,6 +17,7 @@ for prefix in [
     os.path.join(eprefix, "share"),
     # non /usr merge: /bin/sh -> /usr/share/rime-data
     os.path.join(eprefix, "usr/share"),
+    "/run/current-system/sw",
     "/sdcard",
 ]:
     path = os.path.expanduser(os.path.join(prefix, "rime-data"))
