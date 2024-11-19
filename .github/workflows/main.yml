@@ -207,8 +207,7 @@ jobs:
       - name: Build
         run: |
           tar vcafC ../pyrime-${{github.ref_name}}.tar.gz \
-          pyrime-${{github.ref_name}} ..
-          mv ../pyrime-${{github.ref_name}}.tar.gz .
+            pyrime-${{github.ref_name}} ..
       - uses: Freed-Wu/publish-ppa-package@main
         with:
           repository: freedwu/rime
@@ -216,7 +215,7 @@ jobs:
           extra_ppa: freedwu/backport
           gpg_private_key: ${{secrets.GPG_PRIVATE_KEY}}
           gpg_passphrase: ${{secrets.GPG_PASSPHRASE}}
-          tarball: ./*.tar.*
+          tarball: ../*.tar.*
           deb_email: ${{secrets.DEB_EMAIL}}
           deb_fullname: freedwu
           debmake_arguments: -bpyrime:python3
