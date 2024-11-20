@@ -208,7 +208,7 @@ jobs:
         run: |
           tar vcafC ../pyrime-${{github.ref_name}}.tar.gz \
             pyrime-${{github.ref_name}} ..
-      - uses: Freed-Wu/publish-ppa-package@main
+      - uses: yuezk/publish-ppa-package@main
         with:
           repository: freedwu/rime
           series: jammy noble oracular plucky
