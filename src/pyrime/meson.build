@@ -15,14 +15,6 @@ conf_data.set_quoted(
   meson.project_version(),
   description: 'project version',
 )
-cc = meson.get_compiler('c')
-if cc.has_header('rime_api_deprecated.h')
-  conf_data.set(
-    'RIME_API_DEPRECATED',
-    '',
-    description: 'after librime 1.12.0, Rime*()s are deprecated',
-  )
-endif
 conf_file = configure_file(output: 'config.h', configuration: conf_data)
 
 py.extension_module(
