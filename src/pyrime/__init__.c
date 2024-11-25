@@ -26,6 +26,8 @@ PY_NEW_OBJECT(Commit, text)
 #define PY_MEMBER_SchemaListItem(name) PY_MEMBER(SchemaListItem, name)
 PY_NEW_OBJECT(SchemaListItem, schema_id, name)
 
+static RimeApi *rime;
+
 static PyObject *init(PyObject *self, PyObject *args, PyObject *kwargs) {
   static char *keywords[] = {
       "shared_data_dir",   "user_data_dir",          "log_dir",
@@ -40,13 +42,13 @@ static PyObject *init(PyObject *self, PyObject *args, PyObject *kwargs) {
           &rime_traits.distribution_version, &rime_traits.app_name,
           &rime_traits.min_log_level))
     return NULL;
-  RimeSetup(&rime_traits);
-  RimeInitialize(&rime_traits);
+  rime->setup(&rime_traits);
+  rime->initialize(&rime_traits);
   Py_RETURN_NONE;
 }
 
 static PyObject *createSession(PyObject *self) {
-  RimeSessionId session_id = RimeCreateSession();
+  RimeSessionId session_id = rime->create_session();
   if (session_id == 0) {
     PyErr_SetString(PyExc_ValueError, "failed to create session");
     return NULL;
@@ -58,7 +60,7 @@ static PyObject *destroySession(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
-  if (!RimeDestroySession(session_id))
+  if (!rime->destroy_session(session_id))
     PyErr_SetString(PyExc_ValueError, "failed to destroy session");
   Py_RETURN_NONE;
 }
@@ -68,7 +70,7 @@ static PyObject *getCurrentSchema(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
   char schema_id[DEFAULT_BUFFER_SIZE];
-  if (!RimeGetCurrentSchema(session_id, schema_id, DEFAULT_BUFFER_SIZE)) {
+  if (!rime->get_current_schema(session_id, schema_id, DEFAULT_BUFFER_SIZE)) {
     PyErr_SetString(PyExc_ValueError, "failed to get current schema");
     return NULL;
   }
@@ -77,7 +79,7 @@ static PyObject *getCurrentSchema(PyObject *self, PyObject *args) {
 
 static PyObject *getSchemaList(PyObject *self) {
   RimeSchemaList schema_list;
-  if (!RimeGetSchemaList(&schema_list)) {
+  if (!rime->get_schema_list(&schema_list)) {
     PyErr_SetString(PyExc_ValueError, "failed to get schema list");
     return NULL;
   }
@@ -98,7 +100,7 @@ static PyObject *selectSchema(PyObject *self, PyObject *args) {
   char *schema_id;
   if (!PyArg_ParseTuple(args, "ks|", &session_id, &schema_id))
     return NULL;
-  if (!RimeSelectSchema(session_id, schema_id))
+  if (!rime->select_schema(session_id, schema_id))
     PyErr_SetString(PyExc_ValueError, "failed to select schema");
   Py_RETURN_NONE;
 }
@@ -108,7 +110,7 @@ static PyObject *processKey(PyObject *self, PyObject *args) {
   int keycode, mask = 0;
   if (!PyArg_ParseTuple(args, "ki|i", &session_id, &keycode, &mask))
     return NULL;
-  return PyBool_FromLong(RimeProcessKey(session_id, keycode, mask));
+  return PyBool_FromLong(rime->process_key(session_id, keycode, mask));
 }
 
 static PyObject *getContext(PyObject *self, PyObject *args) {
@@ -116,7 +118,7 @@ static PyObject *getContext(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
   RIME_STRUCT(RimeContext, context);
-  if (!RimeGetContext(session_id, &context)) {
+  if (!rime->get_context(session_id, &context)) {
     PyErr_SetString(PyExc_ValueError, "failed to get context");
     return NULL;
   }
@@ -144,7 +146,7 @@ static PyObject *getContext(PyObject *self, PyObject *args) {
   PyObject *context_obj =
       PyObject_CallObject((PyObject *)&ContextType,
                           Py_BuildValue("(OO)", composition_obj, menu_obj));
-  if (!RimeFreeContext(&context)) {
+  if (!rime->free_context(&context)) {
     PyErr_SetString(PyExc_ValueError, "failed to free context");
   }
   return context_obj;
@@ -155,13 +157,13 @@ static PyObject *getCommit(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
   RIME_STRUCT(RimeCommit, commit);
-  if (!RimeGetCommit(session_id, &commit)) {
+  if (!rime->get_commit(session_id, &commit)) {
     PyErr_SetString(PyExc_ValueError, "failed to get commit");
     return NULL;
   }
   PyObject *commit_obj = PyObject_CallObject((PyObject *)&CommitType,
                                              Py_BuildValue("(s)", commit.text));
-  if (!RimeFreeCommit(&commit)) {
+  if (!rime->free_commit(&commit)) {
     PyErr_SetString(PyExc_ValueError, "failed to free commit");
   }
   return commit_obj;
@@ -171,14 +173,14 @@ static PyObject *commitComposition(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
-  return PyBool_FromLong(RimeCommitComposition(session_id));
+  return PyBool_FromLong(rime->commit_composition(session_id));
 }
 
 static PyObject *clearComposition(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
-  RimeClearComposition(session_id);
+  rime->clear_composition(session_id);
   Py_RETURN_NONE;
 }
 
