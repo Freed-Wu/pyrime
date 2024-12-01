@@ -1,13 +1,20 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 with pkgs;
 mkShell {
-  name = "zsh";
+  name = "pyrime";
   buildInputs = [
     meson
     ninja
     pkg-config
     librime
     stdenv.cc
+    (python3.withPackages (
+      p: with p; [
+        build
+      ]
+    ))
   ];
 }
