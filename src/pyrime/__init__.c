@@ -204,6 +204,7 @@ static struct PyModuleDef module = {
 };
 
 PyMODINIT_FUNC PyInit_pyrime(void) {
+  rime = rime_get_api();
   PyObject *m = PyModule_Create(&module);
   PyModule_AddStringConstant(m, "__version__", PROJECT_VERSION);
   PYMODULE_ADDOBJECT(m, Composition);
