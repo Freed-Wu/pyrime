@@ -10,23 +10,29 @@ else
 endif
 
 conf_data = configuration_data()
-conf_data.set_quoted(
+conf_data.set(
   'PROJECT_VERSION',
   meson.project_version(),
   description: 'project version',
 )
-conf_file = configure_file(output: 'config.h', configuration: conf_data)
+header_path = run_command('pkg-config', '--variable=includedir', 'rime', check: true).stdout().strip() + '/rime_api.h'
+configure_file(command: ['autopxd', header_path, 'rime_api.pxd'], output: 'rime_api.pxd')
 
 py.extension_module(
   '__init__',
-  ['__init__.c', conf_file],
+  [
+    # https://github.com/mesonbuild/meson/issues/8693#issuecomment-2511060673
+    configure_file(input: '__init__.py', output: '__init__.pyx', configuration: conf_data),
+  ],
   dependencies: deps,
   subdir: 'pyrime',
   install: true,
+  cython_args: ['-3I' + meson.current_build_dir()],
 )
 py.install_sources(
   [
-    '__init__.pyi',
+    # type annotation
+    '__init__.py',
     '__main__.py',
     'parse_key.py',
     'draw_ui.py',

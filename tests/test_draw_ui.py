@@ -24,7 +24,7 @@ class Test:
             menu=Menu(
                 page_size=10,
                 page_no=0,
-                is_last_page=0,
+                is_last_page=False,
                 highlighted_candidate_index=0,
                 num_candidates=10,
                 select_keys=None,

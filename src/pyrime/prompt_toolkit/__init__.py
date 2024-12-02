@@ -5,9 +5,6 @@ r"""Prompt Toolkit
 import os
 from dataclasses import dataclass
 
-from ptpython.repl import PythonRepl
-from wcwidth import wcswidth
-
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.filters import Condition
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
@@ -19,6 +16,8 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import BufferControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame
+from ptpython.repl import PythonRepl
+from wcwidth import wcswidth
 
 from .. import (
     clear_composition,

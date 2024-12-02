@@ -34,7 +34,10 @@ def draw_ui(context: Context, ui: UI) -> tuple[list[str], int]:
     :type ui: UI
     :rtype: tuple[list[str], int]
     """
-    preedit = context.composition.preedit
+    if context.composition.preedit is None:
+        preedit = ""
+    else:
+        preedit = context.composition.preedit
     preedit = (
         preedit[0 : context.composition.cursor_pos]
         + ui.cursor

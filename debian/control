@@ -3,7 +3,8 @@ Section: python
 Priority: optional
 Maintainer: Wu, Zhenyu <wuzhenyu@ustc.edu>
 Uploaders: Wu, Zhenyu <wuzhenyu@ustc.edu>
-Build-Depends: debhelper-compat (= 9),
+Build-Depends: cython3,
+               debhelper-compat (= 9),
                dh-sequence-python3,
                librime-dev,
                pkg-config,

@@ -13,6 +13,7 @@ mkShell {
     stdenv.cc
     (python3.withPackages (
       p: with p; [
+        cython
         build
       ]
     ))
