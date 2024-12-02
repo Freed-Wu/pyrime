@@ -47,7 +47,7 @@ static PyObject *init(PyObject *self, PyObject *args, PyObject *kwargs) {
   Py_RETURN_NONE;
 }
 
-static PyObject *createSession(PyObject *self) {
+static PyObject *create_session(PyObject *self) {
   RimeSessionId session_id = rime->create_session();
   if (session_id == 0) {
     PyErr_SetString(PyExc_ValueError, "failed to create session");
@@ -56,7 +56,7 @@ static PyObject *createSession(PyObject *self) {
   return PyLong_FromLong(session_id);
 }
 
-static PyObject *destroySession(PyObject *self, PyObject *args) {
+static PyObject *destroy_session(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
@@ -65,7 +65,7 @@ static PyObject *destroySession(PyObject *self, PyObject *args) {
   Py_RETURN_NONE;
 }
 
-static PyObject *getCurrentSchema(PyObject *self, PyObject *args) {
+static PyObject *get_current_schema(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
@@ -77,7 +77,7 @@ static PyObject *getCurrentSchema(PyObject *self, PyObject *args) {
   return PyUnicode_FromString(schema_id);
 }
 
-static PyObject *getSchemaList(PyObject *self) {
+static PyObject *get_schema_list(PyObject *self) {
   RimeSchemaList schema_list;
   if (!rime->get_schema_list(&schema_list)) {
     PyErr_SetString(PyExc_ValueError, "failed to get schema list");
@@ -95,7 +95,7 @@ static PyObject *getSchemaList(PyObject *self) {
   return schema_list_item_objs;
 }
 
-static PyObject *selectSchema(PyObject *self, PyObject *args) {
+static PyObject *select_schema(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   char *schema_id;
   if (!PyArg_ParseTuple(args, "ks|", &session_id, &schema_id))
@@ -105,7 +105,7 @@ static PyObject *selectSchema(PyObject *self, PyObject *args) {
   Py_RETURN_NONE;
 }
 
-static PyObject *processKey(PyObject *self, PyObject *args) {
+static PyObject *process_key(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   int keycode, mask = 0;
   if (!PyArg_ParseTuple(args, "ki|i", &session_id, &keycode, &mask))
@@ -113,7 +113,7 @@ static PyObject *processKey(PyObject *self, PyObject *args) {
   return PyBool_FromLong(rime->process_key(session_id, keycode, mask));
 }
 
-static PyObject *getContext(PyObject *self, PyObject *args) {
+static PyObject *get_context(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
@@ -152,7 +152,7 @@ static PyObject *getContext(PyObject *self, PyObject *args) {
   return context_obj;
 }
 
-static PyObject *getCommit(PyObject *self, PyObject *args) {
+static PyObject *get_commit(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
@@ -169,14 +169,14 @@ static PyObject *getCommit(PyObject *self, PyObject *args) {
   return commit_obj;
 }
 
-static PyObject *commitComposition(PyObject *self, PyObject *args) {
+static PyObject *commit_composition(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
   return PyBool_FromLong(rime->commit_composition(session_id));
 }
 
-static PyObject *clearComposition(PyObject *self, PyObject *args) {
+static PyObject *clear_composition(PyObject *self, PyObject *args) {
   RimeSessionId session_id;
   if (!PyArg_ParseTuple(args, "k|", &session_id))
     return NULL;
@@ -186,16 +186,16 @@ static PyObject *clearComposition(PyObject *self, PyObject *args) {
 
 static PyMethodDef methods[] = {
     {"init", (PyCFunction)init, METH_VARARGS | METH_KEYWORDS, NULL},
-    {"createSession", (PyCFunction)createSession, METH_NOARGS, NULL},
-    {"destroySession", (PyCFunction)destroySession, METH_VARARGS, NULL},
-    {"getCurrentSchema", (PyCFunction)getCurrentSchema, METH_VARARGS, NULL},
-    {"getSchemaList", (PyCFunction)getSchemaList, METH_NOARGS, NULL},
-    {"selectSchema", (PyCFunction)selectSchema, METH_VARARGS, NULL},
-    {"processKey", (PyCFunction)processKey, METH_VARARGS, NULL},
-    {"getContext", (PyCFunction)getContext, METH_VARARGS, NULL},
-    {"getCommit", (PyCFunction)getCommit, METH_VARARGS, NULL},
-    {"commitComposition", (PyCFunction)commitComposition, METH_VARARGS, NULL},
-    {"clearComposition", (PyCFunction)clearComposition, METH_VARARGS, NULL},
+    {"create_session", (PyCFunction)create_session, METH_NOARGS, NULL},
+    {"destroy_session", (PyCFunction)destroy_session, METH_VARARGS, NULL},
+    {"get_current_schema", (PyCFunction)get_current_schema, METH_VARARGS, NULL},
+    {"get_schema_list", (PyCFunction)get_schema_list, METH_NOARGS, NULL},
+    {"select_schema", (PyCFunction)select_schema, METH_VARARGS, NULL},
+    {"process_key", (PyCFunction)process_key, METH_VARARGS, NULL},
+    {"get_context", (PyCFunction)get_context, METH_VARARGS, NULL},
+    {"get_commit", (PyCFunction)get_commit, METH_VARARGS, NULL},
+    {"commit_composition", (PyCFunction)commit_composition, METH_VARARGS, NULL},
+    {"clear_composition", (PyCFunction)clear_composition, METH_VARARGS, NULL},
     {NULL, NULL, 0, NULL},
 };
 

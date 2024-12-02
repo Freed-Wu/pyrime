@@ -21,13 +21,13 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame
 
 from .. import (
-    clearComposition,
-    commitComposition,
-    createSession,
-    getCommit,
-    getContext,
+    clear_composition,
+    commit_composition,
+    create_session,
+    get_commit,
+    get_context,
     init,
-    processKey,
+    process_key,
 )
 from ..__main__ import Traits
 from ..draw_ui import UI, draw_ui
@@ -156,8 +156,8 @@ class Rime:
 
         :rtype: str
         """
-        if commitComposition(self.session_id):
-            return getCommit(self.session_id).text
+        if commit_composition(self.session_id):
+            return get_commit(self.session_id).text
         return ""
 
     def draw(self, keys: list[str]) -> tuple[str, list[str], int]:
@@ -167,11 +167,11 @@ class Rime:
         :type keys: list[str]
         :rtype: tuple[str, list[str], int]
         """
-        if not processKey(self.session_id, *parse_keys(keys)):
+        if not process_key(self.session_id, *parse_keys(keys)):
             if len(keys) == 1 == len(keys[0]):
                 return keys[0], [self.ui.cursor], 0
             return "", [self.ui.cursor], 0
-        context = getContext(self.session_id)
+        context = get_context(self.session_id)
         if context.menu.num_candidates == 0:
             return self.get_commit_text(), [self.ui.cursor], 0
         lines, col = draw_ui(context, self.ui)
@@ -239,7 +239,7 @@ class Rime:
         self.swap_layout()
         self.is_enabled = False
         self.preedit = ""
-        clearComposition(self.session_id)
+        clear_composition(self.session_id)
 
     def calculate(self) -> tuple[int, int]:
         r"""Calculate.
@@ -268,7 +268,7 @@ class Rime:
         if self.session_id == 0:
             os.makedirs(self.traits.log_dir, exist_ok=True)
             init(**vars(self.traits))
-            self.session_id = createSession()
+            self.session_id = create_session()
 
     def enable(self) -> None:
         r"""Enable.
