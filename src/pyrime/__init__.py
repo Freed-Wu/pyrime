@@ -168,6 +168,7 @@ def get_schema_list() -> list[SchemaListItem]:
     schema_list: RimeSchemaList
     rime.get_schema_list(c.address(schema_list))
     results: list[SchemaListItem] = []
+    i: c.int
     for i in range(schema_list.size):
         schema: RimeSchemaListItem = schema_list.list[i]
         results += [
@@ -227,6 +228,7 @@ def get_context(session_id: int) -> Context | None:
         None if menu.select_keys == c.NULL else menu.select_keys.decode()
     )
     candidates: list[Candidate] = []
+    i: c.int
     for i in range(menu.num_candidates):
         candidate: RimeCandidate = menu.candidates[i]
         comment: str | None = (
