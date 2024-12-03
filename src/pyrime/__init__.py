@@ -80,12 +80,9 @@ rime: RimeApi = c.declare(RimeApi)
 
 
 def init(
-    # shared_data_dir: str = "/usr/share/rime-data",
-    shared_data_dir: str = "/run/current-system/sw/share/rime-data",
-    # user_data_dir: str = "/root/.config/ibus/rime",
-    user_data_dir: str = "/home/wzy/.config/ibus/rime",
-    # log_dir: str = "/root/.local/share/ptpython/rime",
-    log_dir: str = "/home/wzy/.local/share/ptpython/rime",
+    shared_data_dir: str = "/usr/share/rime-data",
+    user_data_dir: str = "/root/.config/ibus/rime",
+    log_dir: str = "/root/.local/share/ptpython/rime",
     distribution_name: str = "Rime",
     distribution_code_name: str = "pyrime",
     distribution_version: str = "0.0.1",
