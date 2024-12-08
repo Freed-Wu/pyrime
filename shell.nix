@@ -6,15 +6,21 @@ with pkgs;
 mkShell {
   name = "pyrime";
   buildInputs = [
+    librime
+
+    stdenv.cc
+    pkg-config
     meson
     ninja
-    pkg-config
-    librime
-    stdenv.cc
+
     (python3.withPackages (
       p: with p; [
-        cython
         build
+        pytest
+        pytest-pudb
+        pudb
+
+        cython
       ]
     ))
   ];
