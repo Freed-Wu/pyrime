@@ -142,13 +142,13 @@ jobs:
         # ERROR Virtual environment creation failed, executable
         # /tmp/build-env-c4hi79lc/local/bin/python missing
         run: |
-          pip install build
+          pip install uv
       - name: Build
         run: |
-          PKG_CONFIG_PATH="$HOME/.nix-profile/lib/pkgconfig" pyproject-build -w
+          PKG_CONFIG_PATH="$HOME/.nix-profile/lib/pkgconfig" uv build --wheel
       - if: runner.os == 'Linux'
         run: |
-          pyproject-build -s
+          uv build --sdist
       - uses: actions/upload-artifact@v4
         with:
           name: artifact-${{matrix.runs-on}}
