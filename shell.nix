@@ -10,14 +10,13 @@ mkShell {
 
     stdenv.cc
     pkg-config
-    meson
-    ninja
 
     (python3.withPackages (
       p: with p; [
-        build
+        uv
         pytest
 
+        meson-python
         cython
         autopxd2
       ]
