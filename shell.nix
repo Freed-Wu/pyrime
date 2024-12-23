@@ -21,6 +21,7 @@ mkShell {
         pudb
 
         cython
+        autopxd2
       ]
     ))
   ];
