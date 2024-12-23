@@ -17,8 +17,6 @@ mkShell {
       p: with p; [
         build
         pytest
-        pytest-pudb
-        pudb
 
         cython
         autopxd2
