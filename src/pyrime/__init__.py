@@ -152,7 +152,7 @@ def get_current_schema(session_id: int) -> str:
     :type session_id: int
     :rtype: str
     """
-    schema_id: c.char[1024]
+    schema_id: c.char[1024] = c.declare(c.char[1024])  # type: ignore
     rime.get_current_schema(session_id, schema_id, c.sizeof(schema_id))
     return schema_id.decode()
 
@@ -162,7 +162,7 @@ def get_schema_list() -> list[SchemaListItem]:
 
     :rtype: list[SchemaListItem]
     """
-    schema_list: RimeSchemaList
+    schema_list: RimeSchemaList = c.declare(RimeSchemaList)
     rime.get_schema_list(c.address(schema_list))
     results: list[SchemaListItem] = []
     i: c.int
@@ -212,7 +212,7 @@ def get_context(session_id: int) -> Context | None:
     :type session_id: int
     :rtype: Context | None
     """
-    context: RimeContext
+    context: RimeContext = c.declare(RimeContext)
     context.data_size = c.sizeof(RimeContext) - c.sizeof(context.data_size)
     if rime.get_context(session_id, c.address(context)) != 1:
         return None
@@ -264,7 +264,7 @@ def get_commit(session_id: int) -> Commit | None:
     :type session_id: int
     :rtype: Commit
     """
-    commit: RimeCommit
+    commit: RimeCommit = c.declare(RimeCommit)
     commit.data_size = c.sizeof(RimeCommit) - c.sizeof(commit.data_size)
     if rime.get_commit(session_id, c.address(commit)) != 1:
         return None
