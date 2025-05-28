@@ -96,7 +96,7 @@ build = "*-musllinux_* *-macosx_*"
 # meson doesn't support universal2
 skip = "*37-* *38-* *39-* *_universal2"
 build-frontend = "build[uv]"
-test-requires = ["pytest"]
+before-test = "pip install .[dev]"
 test-command = "pytest {project}"
 
 [[tool.cibuildwheel.overrides]]
