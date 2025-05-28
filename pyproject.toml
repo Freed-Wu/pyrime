@@ -106,7 +106,8 @@ before-all = "apk add librime-dev"
 
 [[tool.cibuildwheel.overrides]]
 select = ["*-macosx_*"]
-before-all = "brew install librime"
+# AssertionError: uv not found
+before-all = "brew install librime uv"
 
 # https://github.com/astral-sh/uv/issues/10260
 [[tool.cibuildwheel.overrides]]
