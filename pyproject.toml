@@ -91,7 +91,7 @@ exclude_lines = [
 [tool.cibuildwheel]
 archs = ["all"]
 # CentOS 7 doesn't have librime-dev
-build = "*-manylinux_x86_64 *-musllinux_* *-macosx_*"
+build = "*-musllinux_* *-macosx_*"
 # https://github.com/mesonbuild/meson-python/discussions/751
 # meson doesn't support universal2
 skip = "*37-* *38-* *39-* *_universal2"
