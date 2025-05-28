@@ -20,143 +20,82 @@ env:
   cache: pip
 
 jobs:
+  # windows doesn't use cibuildwheel
   test:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - runs-on: ubuntu-latest
-            shell: bash
-          - runs-on: macos-latest
-            shell: bash
-          - runs-on: windows-latest
-            shell: msys2
-    runs-on: ${{matrix.runs-on}}
+    runs-on: windows-latest
     defaults:
       run:
-        shell: ${{matrix.shell}} {0}
+        shell: msys2 {0}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.python-version}}
-          cache: ${{env.cache}}
       - uses: msys2/setup-msys2@v2
-        if: runner.os == 'Windows'
       - name: Install dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install librime-dev
-      - name: Install dependencies
-        if: runner.os == 'Windows'
         run: |
           pacman -Sy --noconfirm mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-librime mingw-w64-x86_64-python-pip \
           mingw-w64-x86_64-ninja mingw-w64-x86_64-gcc
-      - uses: cachix/install-nix-action@v24
-        if: runner.os == 'macOS'
-        with:
-          nix_path: nixpkgs=channel:nixpkgs-unstable
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Install dependencies
-        if: runner.os == 'macOS'
-        run: |
-          nix-env -if'<nixpkgs>' librime
-      - name: Test
-        run: |
-          PKG_CONFIG_PATH="$HOME/.nix-profile/lib/pkgconfig" pip install .[dev]
-          pytest --cov
-      - uses: codecov/codecov-action@v4
-
-  build:
-    needs: test
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - runs-on: ubuntu-latest
-            shell: bash
-          - runs-on: macos-latest
-            shell: bash
-          - runs-on: windows-latest
-            shell: msys2
-    runs-on: ${{matrix.runs-on}}
-    defaults:
-      run:
-        shell: ${{matrix.shell}} {0}
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{env.python-version}}
           cache: ${{env.cache}}
+      - name: Test
+        run: |
+          pip install .[dev]
+          pytest --cov
+      - uses: codecov/codecov-action@v4
+
+  build-wheels:
+    needs: test
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
       - uses: msys2/setup-msys2@v2
-        if: runner.os == 'Windows'
+      - name: Install dependencies
+        run: |
+          pacman -Sy --noconfirm mingw-w64-x86_64-pkg-config \
+          mingw-w64-x86_64-librime mingw-w64-x86_64-python-pip \
+          mingw-w64-x86_64-ninja mingw-w64-x86_64-gcc
+      - uses: astral-sh/setup-uv@v6
+      - name: Build
+        run: |
+          uv build --wheel
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact-windows-latest
+          path: |
+            ${{env.files}}
+
+  build-wheels-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{matrix.runs-on}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        if: runner.os == 'Linux'
       - name: Install dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get -y update
           sudo apt-get -y install librime-dev
-      - name: Install dependencies
-        if: runner.os == 'Windows'
-        # Dist currently only works with Git or Mercurial repos
-        run: |
-          pacman -Sy --noconfirm mingw-w64-x86_64-gcc \
-          mingw-w64-x86_64-pkg-config \
-          mingw-w64-x86_64-ninja \
-          mingw-w64-x86_64-librime \
-          mingw-w64-x86_64-python-build git
-      - uses: cachix/install-nix-action@v24
-        if: runner.os == 'macOS'
-        with:
-          nix_path: nixpkgs=channel:nixpkgs-unstable
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Install dependencies
-        if: runner.os == 'macOS'
-        run: |
-          nix-env -if'<nixpkgs>' librime
-      - name: Upgrade version
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          perl -pi -e"s/(?<=version: ')[^']+/$GITHUB_REF_NAME/g" meson.build
-          git add -A
-          git config --global user.name 'Github Actions'
-          git config --global user.email \
-          '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m ":bookmark: Dump version" || true
-      - name: Install common dependencies
-        if: runner.os != 'Windows'
-        # windows uses msys2's pip's python-build
-        # ERROR Command '['D:/a/_temp/msys64/mingw64/bin/python.exe', '-m',
-        # 'pip', '--python',
-        # 'D:/a/_temp/msys64/tmp/build-env-6w5hd7wi/bin/python.exe', 'install',
-        # '--use-pep517', '--no-warn-script-location', '--no-compile', '-r',
-        # 'D:/a/_temp/msys64/tmp/build-reqs-zy4dg0x1.txt']' returned non-zero
-        # exit status 1.
-        # ubuntu uses apt's pip's python-build
-        # ERROR Virtual environment creation failed, executable
-        # /tmp/build-env-c4hi79lc/local/bin/python missing
-        run: |
-          pip install uv
-      - name: Build
-        run: |
-          PKG_CONFIG_PATH="$HOME/.nix-profile/lib/pkgconfig" uv build --wheel
-      - if: runner.os == 'Linux'
-        run: |
-          uv build --sdist
+      - uses: pypa/cibuildwheel@v2.23
       - uses: actions/upload-artifact@v4
         with:
           name: artifact-${{matrix.runs-on}}
           path: |
-            ${{env.files}}
+            wheelhouse/*.whl
 
   publish:
-    needs: build
+    needs:
+      - build-wheels-and-test
+      - build-wheels
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -169,9 +108,11 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install rename
-          rename \
-            's/linux/manylinux_2_17/;s/mingw_x86_64_msvcrt_gnu/win_amd64/' \
-            dist/*
+          rename 's/mingw_x86_64_msvcrt_gnu/win_amd64/' dist/*
+      - uses: astral-sh/setup-uv@v6
+      - name: Build
+        run: |
+          uv build --sdist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{secrets.PYPI_API_TOKEN}}
@@ -182,7 +123,7 @@ jobs:
             ${{env.files}}
 
   deploy-aur:
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -192,7 +133,7 @@ jobs:
           ssh_private_key: ${{secrets.AUR_SSH_PRIVATE_KEY}}
 
   deploy-nur:
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -204,7 +145,7 @@ jobs:
           https://api.github.com/repos/Freed-Wu/nur-packages/actions/workflows/version.yml/dispatches
 
   deploy-ppa:
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:

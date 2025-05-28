@@ -90,6 +90,24 @@ exclude_lines = [
 
 [tool.cibuildwheel]
 archs = ["all"]
-skip = "*37-* *38-* *39-*"
+# CentOS 7 doesn't have librime-dev
+build = "*-manylinux_x86_64 *-musllinux_* *-macosx_*"
+# https://github.com/mesonbuild/meson-python/discussions/751
+# meson doesn't support universal2
+skip = "*37-* *38-* *39-* *_universal2"
+build-frontend = "build[uv]"
 test-requires = ["pytest"]
 test-command = "pytest {project}"
+
+[[tool.cibuildwheel.overrides]]
+select = ["*-musllinux_*"]
+before-all = "apk add librime-dev"
+
+[[tool.cibuildwheel.overrides]]
+select = ["*-macosx_*"]
+before-all = "brew install librime"
+
+# https://github.com/astral-sh/uv/issues/10260
+[[tool.cibuildwheel.overrides]]
+select = ["*-musllinux_s390x", "*-musllinux_ppc64*"]
+build-frontend = "build"
