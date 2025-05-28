@@ -100,6 +100,9 @@ build-frontend = "build[uv]"
 before-test = "pip install .[dev]"
 test-command = "pytest {project}"
 
+[tool.cibuildwheel.environment]
+MACOSX_DEPLOYMENT_TARGET = "14.0"
+
 [[tool.cibuildwheel.overrides]]
 select = ["*-musllinux_*"]
 before-all = "apk add librime-dev"
