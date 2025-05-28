@@ -94,7 +94,8 @@ archs = ["all"]
 build = "*-musllinux_* *-macosx_*"
 # https://github.com/mesonbuild/meson-python/discussions/751
 # meson doesn't support universal2
-skip = "*37-* *38-* *39-* *_universal2"
+# ERROR: Dependency lookup for rime with method 'pkgconfig' failed: Pkg-config for machine host machine not found. Giving up.
+skip = "*37-* *38-* *39-* *_universal2 *-macosx_x86_64"
 build-frontend = "build[uv]"
 before-test = "pip install .[dev]"
 test-command = "pytest {project}"
@@ -105,7 +106,7 @@ before-all = "apk add librime-dev"
 
 [[tool.cibuildwheel.overrides]]
 select = ["*-macosx_*"]
-before-all = "brew install librime uv pkg-config"
+before-all = "brew install librime"
 
 # https://github.com/astral-sh/uv/issues/10260
 [[tool.cibuildwheel.overrides]]
