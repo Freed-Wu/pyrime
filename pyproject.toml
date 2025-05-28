@@ -105,7 +105,7 @@ before-all = "apk add librime-dev"
 
 [[tool.cibuildwheel.overrides]]
 select = ["*-macosx_*"]
-before-all = "brew install librime"
+before-all = "brew install librime uv pkg-config"
 
 # https://github.com/astral-sh/uv/issues/10260
 [[tool.cibuildwheel.overrides]]
