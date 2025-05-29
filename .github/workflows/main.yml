@@ -97,7 +97,7 @@ jobs:
           uv build --wheel
       - uses: actions/upload-artifact@v4
         with:
-          name: artifact-${{matrix.runs-on}}
+          name: artifact-${{matrix.runs-on}}-noci
           path: |
             ${{env.files}}
 
