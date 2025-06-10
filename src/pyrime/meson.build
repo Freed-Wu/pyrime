@@ -44,6 +44,7 @@ py.install_sources(
   [
     'prompt_toolkit/__init__.py',
     'prompt_toolkit/rime.py',
+    'prompt_toolkit/gdb.py',
   ],
   subdir: 'pyrime/prompt_toolkit',
 )
