@@ -19,10 +19,10 @@ header_path = run_command('pkg-config', '--variable=includedir', 'rime', check: 
 configure_file(command: ['autopxd', header_path, 'rime_api.pxd'], output: 'rime_api.pxd')
 
 py.extension_module(
-  '__init__',
+  'rime',
   [
     # https://github.com/mesonbuild/meson/issues/8693#issuecomment-2511060673
-    configure_file(input: '__init__.py', output: '__init__.pyx', configuration: conf_data),
+    configure_file(input: 'rime.py', output: 'rime.pyx', copy: true),
   ],
   dependencies: deps,
   subdir: 'pyrime',
@@ -31,8 +31,9 @@ py.extension_module(
 )
 py.install_sources(
   [
+    configure_file(input: '__init__.py', output: '__init__.py', configuration: conf_data),
     # type annotation
-    '__init__.py',
+    configure_file(input: 'rime.py', output: 'rime.pyi', copy: true),
     '__main__.py',
     'parse_key.py',
     'draw_ui.py',
@@ -42,6 +43,7 @@ py.install_sources(
 py.install_sources(
   [
     'prompt_toolkit/__init__.py',
+    'prompt_toolkit/rime.py',
   ],
   subdir: 'pyrime/prompt_toolkit',
 )
@@ -56,6 +58,7 @@ py.install_sources(
 )
 py.install_sources(
   [
+    'prompt_toolkit/plugins/__init__.py',
     'prompt_toolkit/plugins/autopair.py',
     'prompt_toolkit/plugins/autosuggestion.py',
     'prompt_toolkit/plugins/smartinput.py',

@@ -8,11 +8,11 @@ Refer `vim-smartinput <https://github.com/kana/vim-smartinput>`_.
 
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 
-from .. import Rime
 from ..utils.condition import InsertMode
+from . import RimeBase
 
 
-def smartinput(rime: Rime) -> None:
+def smartinput(rime: RimeBase) -> None:
     r"""Smartinput.
 
     :param rime:

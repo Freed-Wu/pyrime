@@ -17,10 +17,10 @@ from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.key_binding.vi_state import InputMode
 from prompt_toolkit.selection import SelectionType
 
-from .. import Rime
+from . import RimeBase
 
 
-def viemacs(rime: Rime) -> None:
+def viemacs(rime: RimeBase) -> None:
     repl = rime.repl
 
     @repl.add_key_binding("escape", filter=EmacsInsertMode())  # type: ignore
