@@ -22,7 +22,7 @@ import __main__
 
 class PtPythonCommand(gdb.Command):
     def __init__(self) -> None:
-        super().__init__(__name__.split(".")[-1], gdb.COMMAND_USER)
+        super().__init__("ptpython", gdb.COMMAND_USER)
         a = Namespace(config_file=None, history_file=None)
         self.config_file, self.history_file = get_config_and_history_file(a)
         self.startup_paths = []
