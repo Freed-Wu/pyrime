@@ -18,7 +18,6 @@ from . import Candidate, Commit, Composition, Context, Menu, SchemaListItem
 
 rime: RimeApi = c.declare(RimeApi)
 
-
 def init(
     shared_data_dir: str = "/usr/share/rime-data",
     user_data_dir: str = "/root/.config/ibus/rime",
@@ -66,14 +65,12 @@ def init(
     rime.setup(c.address(traits))
     rime.initialize(c.address(traits))
 
-
 def create_session() -> int:
     r"""Create session.
 
     :rtype: int
     """
     return rime.create_session()
-
 
 def destroy_session(session_id: int) -> None:
     r"""Destroy session.
@@ -83,7 +80,6 @@ def destroy_session(session_id: int) -> None:
     :rtype: None
     """
     return rime.destroy_session(session_id)
-
 
 def get_current_schema(session_id: int) -> str:
     r"""Get current schema.
@@ -95,7 +91,6 @@ def get_current_schema(session_id: int) -> str:
     schema_id: c.char[1024] = c.declare(c.char[1024])  # type: ignore
     rime.get_current_schema(session_id, schema_id, c.sizeof(schema_id))
     return schema_id.decode()
-
 
 def get_schema_list() -> list[SchemaListItem]:
     r"""Get schema list.
@@ -116,7 +111,6 @@ def get_schema_list() -> list[SchemaListItem]:
         ]
     return results
 
-
 def select_schema(session_id: int, schema_id: str) -> bool:
     r"""Select schema.
 
@@ -127,7 +121,6 @@ def select_schema(session_id: int, schema_id: str) -> bool:
     :rtype: bool
     """
     return rime.select_schema(session_id, schema_id.encode()) == 1
-
 
 def process_key(session_id: int, keycode: int, mask: int) -> bool:
     r"""Process key.
@@ -143,7 +136,6 @@ def process_key(session_id: int, keycode: int, mask: int) -> bool:
     _keycode: c.int = keycode
     _mask: c.int = mask
     return rime.process_key(session_id, _keycode, _mask) == 1
-
 
 def get_context(session_id: int) -> Context | None:
     r"""Get context.
@@ -196,7 +188,6 @@ def get_context(session_id: int) -> Context | None:
         ),
     )
 
-
 def get_commit(session_id: int) -> Commit | None:
     r"""Get commit.
 
@@ -210,7 +201,6 @@ def get_commit(session_id: int) -> Commit | None:
         return None
     return Commit(commit.text.decode())
 
-
 def commit_composition(session_id: int) -> bool:
     r"""Commit composition.
 
@@ -219,7 +209,6 @@ def commit_composition(session_id: int) -> bool:
     :rtype: bool
     """
     return rime.commit_composition(session_id) == 1
-
 
 def clear_composition(session_id: int) -> None:
     r"""Clear composition.
