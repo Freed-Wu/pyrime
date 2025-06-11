@@ -95,6 +95,10 @@ jobs:
       - name: Build
         run: |
           uv build --wheel
+      - name: Build sdist
+        if: runner.os == 'Linux'
+        run: |
+          uv build --sdist
       - uses: actions/upload-artifact@v4
         with:
           name: artifact-${{matrix.runs-on}}-noci
@@ -133,7 +137,6 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           pattern: artifact-*
@@ -145,10 +148,6 @@ jobs:
           sudo apt-get -y install rename
           rename 's/(linux)/many$1_2_17/;s/mingw_x86_64_msvcrt_gnu/win_amd64/' \
             dist/*
-      - uses: astral-sh/setup-uv@v6
-      - name: Build
-        run: |
-          uv build --sdist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{secrets.PYPI_API_TOKEN}}
