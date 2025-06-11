@@ -146,7 +146,8 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install rename
-          rename 's/(linux)/many$1_2_17/;s/mingw_x86_64_msvcrt_gnu/win_amd64/' \
+          rename \
+            's/-(linux)/-many$1_2_17/;s/mingw_x86_64_msvcrt_gnu/win_amd64/' \
             dist/*
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
