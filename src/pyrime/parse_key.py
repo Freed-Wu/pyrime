@@ -11,13 +11,13 @@ with open(os.path.join(json_dir, "keys.json")) as f:
 with open(os.path.join(json_dir, "modifiers.json")) as f:
     modifiers_: list = json.load(f)  # type: ignore
 
-SHIFT_CR = ["escape", *"[13;2u"]
+SHIFT_CR = ["escape", *"[27;2;13~"]
 ALT_CR = ["escape", "enter"]
-ALT_SHIFT_CR = ["escape", *"[13;4u"]
-CONTROL_CR = ["escape", *"[13;5u"]
-CONTROL_SHIFT_CR = ["escape", *"[13;6u"]
-CONTROL_ALT_CR = ["escape", *"[13;7u"]
-CONTROL_ALT_SHIFT_CR = ["escape", *"[13;8u"]
+ALT_SHIFT_CR = ALT_CR
+CONTROL_CR = ["escape", *"[27;5;13~"]
+CONTROL_SHIFT_CR = ["escape", *"[27;6;13~"]
+CONTROL_ALT_CR = ["escape", *"[27;7;13~"]
+CONTROL_ALT_SHIFT_CR = ["escape", *"[27;8;13~"]
 
 
 def parse_key(key: str, modifiers: set[str]) -> tuple[int, int]:
