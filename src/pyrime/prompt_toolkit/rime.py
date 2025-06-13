@@ -18,15 +18,6 @@ from prompt_toolkit.widgets import Frame
 from ptpython.repl import PythonRepl
 from wcwidth import wcswidth
 
-from .. import (
-    clear_composition,
-    commit_composition,
-    create_session,
-    get_commit,
-    get_context,
-    init,
-    process_key,
-)
 from ..__main__ import Traits
 from ..draw_ui import UI, draw_ui
 from ..parse_key import (
@@ -37,6 +28,15 @@ from ..parse_key import (
     CONTROL_SHIFT_CR,
     SHIFT_CR,
     parse_keys,
+)
+from ..rime import (
+    clear_composition,
+    commit_composition,
+    create_session,
+    get_commit,
+    get_context,
+    init,
+    process_key,
 )
 from . import RimeBase
 

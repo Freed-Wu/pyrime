@@ -92,6 +92,8 @@ jobs:
           sudo apt-get -y install librime-dev
       - uses: astral-sh/setup-uv@v6
         if: runner.os == 'Linux'
+        with:
+          python-version: "3.13"
       - name: Build
         run: |
           uv build --wheel
