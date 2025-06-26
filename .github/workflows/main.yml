@@ -198,7 +198,6 @@ jobs:
         with:
           repository: freedwu/rime
           series: jammy noble oracular plucky
-          extra_ppa: freedwu/backport
           gpg_private_key: ${{secrets.GPG_PRIVATE_KEY}}
           gpg_passphrase: ${{secrets.GPG_PASSPHRASE}}
           tarball: ./*.tar.*
